@@ -1,50 +1,42 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.*;
 
 @Entity
+@Table(name = "assets")
 public class Asset {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String assetTag;
+    private String name;
 
-    private String assetName;
-    private Double purchaseCost;
-    private String status = "ACTIVE";
-
-    private LocalDate purchaseDate;
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private String status;
 
     @ManyToOne
+    @JoinColumn(name = "vendor_id")
     private Vendor vendor;
 
     @ManyToOne
+    @JoinColumn(name = "rule_id")
     private DepreciationRule depreciationRule;
 
-    // Constructors
-    public Asset() {}
+    // ✅ REQUIRED BY JPA
+    public Asset() {
+    }
 
-    public Asset(Long id, String assetTag, String assetName,
-                 Double purchaseCost, String status,
-                 LocalDate purchaseDate, LocalDateTime createdAt,
+    public Asset(Long id, String name, String status,
                  Vendor vendor, DepreciationRule depreciationRule) {
         this.id = id;
-        this.assetTag = assetTag;
-        this.assetName = assetName;
-        this.purchaseCost = purchaseCost;
+        this.name = name;
         this.status = status;
-        this.purchaseDate = purchaseDate;
-        this.createdAt = createdAt;
         this.vendor = vendor;
         this.depreciationRule = depreciationRule;
     }
 
-    // Getters & Setters
+    // ---------------- GETTERS & SETTERS ----------------
+
     public Long getId() {
         return id;
     }
@@ -53,28 +45,12 @@ public class Asset {
         this.id = id;
     }
 
-    public String getAssetTag() {
-        return assetTag;
+    public String getName() {
+        return name;
     }
 
-    public void setAssetTag(String assetTag) {
-        this.assetTag = assetTag;
-    }
-
-    public String getAssetName() {
-        return assetName;
-    }
-
-    public void setAssetName(String assetName) {
-        this.assetName = assetName;
-    }
-
-    public Double getPurchaseCost() {
-        return purchaseCost;
-    }
-
-    public void setPurchaseCost(Double purchaseCost) {
-        this.purchaseCost = purchaseCost;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getStatus() {
@@ -85,21 +61,6 @@ public class Asset {
         this.status = status;
     }
 
-    public LocalDate getPurchaseDate() {
-        return purchaseDate;
-    }
-
-    public void setPurchaseDate(LocalDate purchaseDate) {
-        this.purchaseDate = purchaseDate;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 
     public Vendor getVendor() {
         return vendor;
