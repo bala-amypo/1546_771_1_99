@@ -1,12 +1,12 @@
 package com.example.demo.service;
-import com.example.demo.service.DepreciationRule;
 
 import java.util.List;
 
+import com.example.demo.entity.DepreciationRule;
 
-public interface DepreciationRule {
+public  interface DepreciationRuleService {
     DepreciationRule createRule(DepreciationRule rule);
-    List<DepreciationRule> getAllRules();
-
+    List<DepreciationRule>getAllRules();
+    
     
 }
