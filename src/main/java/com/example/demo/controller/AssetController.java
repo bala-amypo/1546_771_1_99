@@ -37,7 +37,6 @@ public class AssetController {
         return assetService.getAsset(id);
     }
 
-    // ✅ GET ASSETS BY STATUS
     @GetMapping("/status/{status}")
     public List<Asset> getAssetsByStatus(@PathVariable String status) {
         return assetService.getAssetsByStatus(status);
