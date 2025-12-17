@@ -15,7 +15,6 @@ public class AssetDisposalController {
         this.disposalService = disposalService;
     }
 
-    // CREATE / REQUEST DISPOSAL
     @PostMapping("/{assetId}/{userId}")
     public AssetDisposal disposeAsset(@PathVariable Long assetId,
                                       @PathVariable Long userId,
@@ -23,7 +22,6 @@ public class AssetDisposalController {
         return disposalService.disposeAsset(assetId, userId, disposal);
     }
 
-    // ✅ APPROVE DISPOSAL (ADMIN)
     @PutMapping("/approve/{disposalId}/{adminId}")
     public AssetDisposal approveDisposal(@PathVariable Long disposalId,
                                          @PathVariable Long adminId) {

@@ -18,7 +18,7 @@ public class Vendor {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    // Constructors
+    
     public Vendor() {}
 
     public Vendor(Long id, String vendorName, String contactEmail,
@@ -30,7 +30,7 @@ public class Vendor {
         this.createdAt = createdAt;
     }
 
-    // Getters & Setters
+    
     public Long getId() {
         return id;
     }

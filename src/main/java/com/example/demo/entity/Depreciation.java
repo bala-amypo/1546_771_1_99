@@ -19,7 +19,7 @@ public class DepreciationRule {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    // Constructors
+    
     public DepreciationRule() {}
 
     public DepreciationRule(Long id, String ruleName, String method,
@@ -33,7 +33,7 @@ public class DepreciationRule {
         this.createdAt = createdAt;
     }
 
-    // Getters & Setters
+
     public Long getId() {
         return id;
     }

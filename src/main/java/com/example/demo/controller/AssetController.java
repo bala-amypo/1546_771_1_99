@@ -17,7 +17,7 @@ public class AssetController {
         this.assetService = assetService;
     }
 
-    // CREATE ASSET
+
     @PostMapping("/{vendorId}/{ruleId}")
     public Asset createAsset(@PathVariable Long vendorId,
                              @PathVariable Long ruleId,
@@ -25,13 +25,13 @@ public class AssetController {
         return assetService.createAsset(vendorId, ruleId, asset);
     }
 
-    // GET ALL ASSETS
+
     @GetMapping
     public List<Asset> getAllAssets() {
         return assetService.getAllAssets();
     }
 
-    // GET ASSET BY ID
+
     @GetMapping("/{id}")
     public Asset getAssetById(@PathVariable Long id) {
         return assetService.getAsset(id);
