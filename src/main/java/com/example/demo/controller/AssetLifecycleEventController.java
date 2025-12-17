@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/asset-events")
-@CrossOrigin
+@RequestMapping("/api/lifecycle")
 public class AssetLifecycleEventController {
 
     private final AssetLifecycleEventService service;
@@ -18,13 +17,14 @@ public class AssetLifecycleEventController {
     }
 
     @PostMapping("/{assetId}")
-    public AssetLifecycleEvent logEvent(@PathVariable Long assetId,
-                                        @RequestBody AssetLifecycleEvent event) {
+    public AssetLifecycleEvent logEvent(
+            @PathVariable Long assetId,
+            @RequestBody AssetLifecycleEvent event) {
         return service.logEvent(assetId, event);
     }
 
     @GetMapping("/{assetId}")
-    public List<AssetLifecycleEvent> getEventsByAsset(@PathVariable Long assetId) {
+    public List<AssetLifecycleEvent> getEvents(@PathVariable Long assetId) {
         return service.getEventsByAsset(assetId);
     }
 }
