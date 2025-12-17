@@ -1,29 +1,28 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Vendor;
-import com.example.demo.service.VendorService;
+import com.example.demo.entity.DepreciationRule;
+import com.example.demo.service.DepreciationRuleService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/vendors")
-@CrossOrigin
-public class VendorController {
+@RequestMapping("/rules")
+public class DepreciationRuleController {
 
-    private final VendorService vendorService;
+    private final DepreciationRuleService ruleService;
 
-    public VendorController(VendorService vendorService) {
-        this.vendorService = vendorService;
+    public DepreciationRuleController(DepreciationRuleService ruleService) {
+        this.ruleService = ruleService;
     }
 
     @PostMapping
-    public Vendor createVendor(@RequestBody Vendor vendor) {
-        return vendorService.createVendor(vendor);
+    public DepreciationRule createRule(@RequestBody DepreciationRule rule) {
+        return ruleService.createRule(rule);
     }
 
     @GetMapping
-    public List<Vendor> getAllVendors() {
-        return vendorService.getAllVendors();
+    public List<DepreciationRule> getAllRules() {
+        return ruleService.getAllRules();
     }
 }

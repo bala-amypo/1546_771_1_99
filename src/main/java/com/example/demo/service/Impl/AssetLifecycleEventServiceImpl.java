@@ -12,26 +12,25 @@ import java.util.List;
 @Service
 public class AssetLifecycleEventServiceImpl implements AssetLifecycleEventService {
 
-    private final AssetLifecycleEventRepository eventRepository;
-    private final AssetRepository assetRepository;
+    private final AssetLifecycleEventRepository eventRepo;
+    private final AssetRepository assetRepo;
 
-    public AssetLifecycleEventServiceImpl(AssetLifecycleEventRepository eventRepository,
-                                          AssetRepository assetRepository) {
-        this.eventRepository = eventRepository;
-        this.assetRepository = assetRepository;
+    public AssetLifecycleEventServiceImpl(AssetLifecycleEventRepository eventRepo,
+                                          AssetRepository assetRepo) {
+        this.eventRepo = eventRepo;
+        this.assetRepo = assetRepo;
     }
 
     @Override
     public AssetLifecycleEvent addEvent(Long assetId, AssetLifecycleEvent event) {
-        Asset asset = assetRepository.findById(assetId)
+        Asset asset = assetRepo.findById(assetId)
                 .orElseThrow(() -> new RuntimeException("Asset not found"));
-
         event.setAsset(asset);
-        return eventRepository.save(event);
+        return eventRepo.save(event);
     }
 
     @Override
-    public List<AssetLifecycleEvent> getAllEvents() {
-        return eventRepository.findAll();
+    public List<AssetLifecycleEvent> getEventsByAsset(Long assetId) {
+        return eventRepo.findByAssetId(assetId);
     }
 }

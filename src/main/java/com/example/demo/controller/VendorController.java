@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/vendors")
-@CrossOrigin
+@RequestMapping("/vendors")
 public class VendorController {
 
     private final VendorService vendorService;
@@ -25,5 +24,10 @@ public class VendorController {
     @GetMapping
     public List<Vendor> getAllVendors() {
         return vendorService.getAllVendors();
+    }
+
+    @GetMapping("/{id}")
+    public Vendor getVendor(@PathVariable Long id) {
+        return vendorService.getVendor(id);
     }
 }
