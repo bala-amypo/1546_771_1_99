@@ -1,13 +1,12 @@
-
-
 package com.example.demo.repository;
 
-import com.example.demo.entity.User;
+import com.example.demo.entity.Asset;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import java.util.List;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface AssetRepository extends JpaRepository<Asset, Long> {
 
-    Optional<User> findByEmail(String email);
+    
+    List<Asset> findByStatus(String status);
 }
