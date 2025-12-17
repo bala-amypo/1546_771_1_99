@@ -1,0 +1,63 @@
+package com.example.demo.service.impl;
+
+import com.example.demo.entity.Asset;
+import com.example.demo.entity.DepreciationRule;
+import com.example.demo.entity.Vendor;
+import com.example.demo.repository.AssetRepository;
+import com.example.demo.repository.DepreciationRuleRepository;
+import com.example.demo.repository.VendorRepository;
+import com.example.demo.service.AssetService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class AssetServiceImpl implements AssetService {
+
+    private final AssetRepository assetRepository;
+    private final VendorRepository vendorRepository;
+    private final DepreciationRuleRepository ruleRepository;
+
+    public AssetServiceImpl(AssetRepository assetRepository,
+                            VendorRepository vendorRepository,
+                            DepreciationRuleRepository ruleRepository) {
+        this.assetRepository = assetRepository;
+        this.vendorRepository = vendorRepository;
+        this.ruleRepository = ruleRepository;
+    }
+
+    // POST /api/assets/{vendorId}/{ruleId}
+    @Override
+    public Asset createAsset(Long vendorId, Long ruleId, Asset asset) {
+
+        Vendor vendor = vendorRepository.findById(vendorId)
+                .orElseThrow(() -> new RuntimeException("Vendor not found"));
+
+        DepreciationRule rule = ruleRepository.findById(ruleId)
+                .orElseThrow(() -> new RuntimeException("Depreciation rule not found"));
+
+        asset.setVendor(vendor);
+        asset.setDepreciationRule(rule);
+
+        return assetRepository.save(asset);
+    }
+
+    // GET /api/assets
+    @Override
+    public List<Asset> getAllAssets() {
+        return assetRepository.findAll();
+    }
+
+    // GET /api/assets/{id}
+    @Override
+    public Asset getAsset(Long id) {
+        return assetRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Asset not found"));
+    }
+
+    // GET /api/assets/status/{status}
+    @Override
+    public List<Asset> getAssetsByStatus(String status) {
+        return assetRepository.findByStatus(status);
+    }
+}

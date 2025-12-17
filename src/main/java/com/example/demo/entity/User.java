@@ -23,7 +23,6 @@ public class User {
     @ManyToMany
     private Set<Role> roles;
 
-    // Constructors
     public User() {}
 
     public User(Long id, String name, String email, String password,
