@@ -27,9 +27,6 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // =========================
-    // LOGIN
-    // =========================
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
 
@@ -42,7 +39,6 @@ public class AuthController {
         }
 
         String token = jwtUtil.generateToken(user.getEmail());
-
-        return new AuthResponse(token, user.getEmail(), user.getRole().getName());
+        return new AuthResponse(token, user.getEmail());
     }
 }
