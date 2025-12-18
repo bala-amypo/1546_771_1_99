@@ -22,6 +22,6 @@ public class AuthController {
         if (user == null) {
             return "User not found!";
         }
-        return "Welcome " + user.getName();
+        return "Welcome " + user.getName(); // Now getName() exists
     }
 }
