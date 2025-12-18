@@ -18,7 +18,7 @@ public class AssetLifecycleEvent {
     private LocalDate eventDate;
     private LocalDateTime loggedAt = LocalDateTime.now();
 
-    // Constructors
+    
     public AssetLifecycleEvent() {}
 
     public AssetLifecycleEvent(Long id, Asset asset, String eventType,
@@ -30,9 +30,7 @@ public class AssetLifecycleEvent {
         this.eventDescription = eventDescription;
         this.eventDate = eventDate;
         this.loggedAt = loggedAt;
-    }
 
-    // Getters & Setters
     public Long getId() {
         return id;
     }

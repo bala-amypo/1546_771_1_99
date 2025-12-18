@@ -12,17 +12,17 @@ public class DepreciationRule {
 
     private String ruleName;
     private Double rate;
-    private Integer usefulLife; // in years
+    private Integer usefulLife; 
 
-    // One rule can apply to many assets
+    
     @OneToMany(mappedBy = "depreciationRule", cascade = CascadeType.ALL)
     private List<Asset> assets;
 
-    // No-args constructor
+    
     public DepreciationRule() {
     }
 
-    // All-args constructor
+
     public DepreciationRule(Long id, String ruleName, Double rate, Integer usefulLife) {
         this.id = id;
         this.ruleName = ruleName;

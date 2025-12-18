@@ -1,3 +1,4 @@
+-- Active: 1766031576414@@127.0.0.1@3306@lifecycle
 package com.example.demo.config;
 
 import jakarta.servlet.FilterChain;
@@ -12,9 +13,7 @@ import java.io.IOException;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    // Normally you would inject a JWT utility service
-    // @Autowired
-    // private JwtService jwtService;
+   
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -26,9 +25,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-            // Here you would validate the token
-            // e.g., boolean valid = jwtService.validateToken(token);
-            // For now, just print
+            
             System.out.println("Received JWT: " + token);
         }
 
