@@ -14,50 +14,47 @@ import java.util.List;
 @Service
 public class AssetServiceImpl implements AssetService {
 
-    private final AssetRepository assetRepository;
-    private final VendorRepository vendorRepository;
-    private final DepreciationRuleRepository ruleRepository;
+    private final AssetRepository assetRepo;
+    private final VendorRepository vendorRepo;
+    private final DepreciationRuleRepository ruleRepo;
 
-    public AssetServiceImpl(AssetRepository assetRepository,
-                            VendorRepository vendorRepository,
-                            DepreciationRuleRepository ruleRepository) {
-        this.assetRepository = assetRepository;
-        this.vendorRepository = vendorRepository;
-        this.ruleRepository = ruleRepository;
+    public AssetServiceImpl(AssetRepository assetRepo,
+                            VendorRepository vendorRepo,
+                            DepreciationRuleRepository ruleRepo) {
+        this.assetRepo = assetRepo;
+        this.vendorRepo = vendorRepo;
+        this.ruleRepo = ruleRepo;
     }
 
-    // POST /api/assets/{vendorId}/{ruleId}
     @Override
     public Asset createAsset(Long vendorId, Long ruleId, Asset asset) {
 
-        Vendor vendor = vendorRepository.findById(vendorId)
+        Vendor vendor = vendorRepo.findById(vendorId)
                 .orElseThrow(() -> new RuntimeException("Vendor not found"));
 
-        DepreciationRule rule = ruleRepository.findById(ruleId)
-                .orElseThrow(() -> new RuntimeException("Depreciation rule not found"));
+        DepreciationRule rule = ruleRepo.findById(ruleId)
+                .orElseThrow(() -> new RuntimeException("Rule not found"));
 
+        // ✅ THESE WILL NOW WORK
         asset.setVendor(vendor);
         asset.setDepreciationRule(rule);
 
-        return assetRepository.save(asset);
+        return assetRepo.save(asset);
     }
 
-    // GET /api/assets
     @Override
     public List<Asset> getAllAssets() {
-        return assetRepository.findAll();
+        return assetRepo.findAll();
     }
 
-    // GET /api/assets/{id}
     @Override
     public Asset getAsset(Long id) {
-        return assetRepository.findById(id)
+        return assetRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Asset not found"));
     }
 
-    // GET /api/assets/status/{status}
     @Override
     public List<Asset> getAssetsByStatus(String status) {
-        return assetRepository.findByStatus(status);
+        return assetRepo.findByStatus(status);
     }
 }
