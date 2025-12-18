@@ -3,25 +3,24 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")   // optional but recommended (avoids SQL keyword issues)
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    private String name; // Make sure this field exists
     private String email;
 
-    @Column(nullable = false)
-    private String password;
+    public User() {}
 
-    // No-arg constructor (required by JPA)
-    public User() {
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
     }
 
-    // Getters and Setters
-
+    // Getter and Setter for ID
     public Long getId() {
         return id;
     }
@@ -30,19 +29,21 @@ public class User {
         this.id = id;
     }
 
+    // Getter and Setter for name
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // Getter and Setter for email
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }
