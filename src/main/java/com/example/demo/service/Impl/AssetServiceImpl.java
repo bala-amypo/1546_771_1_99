@@ -1,4 +1,4 @@
-package com.example.demo.service.Impl;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.Asset;
 import com.example.demo.entity.DepreciationRule;
@@ -26,10 +26,15 @@ public class AssetServiceImpl implements AssetService {
         this.ruleRepository = ruleRepository;
     }
 
+    // POST /api/assets/{vendorId}/{ruleId}
     @Override
     public Asset createAsset(Long vendorId, Long ruleId, Asset asset) {
-        Vendor vendor = vendorRepository.findById(vendorId).orElseThrow();
-        DepreciationRule rule = ruleRepository.findById(ruleId).orElseThrow();
+
+        Vendor vendor = vendorRepository.findById(vendorId)
+                .orElseThrow(() -> new RuntimeException("Vendor not found"));
+
+        DepreciationRule rule = ruleRepository.findById(ruleId)
+                .orElseThrow(() -> new RuntimeException("Depreciation rule not found"));
 
         asset.setVendor(vendor);
         asset.setDepreciationRule(rule);
@@ -37,16 +42,20 @@ public class AssetServiceImpl implements AssetService {
         return assetRepository.save(asset);
     }
 
+    // GET /api/assets
     @Override
     public List<Asset> getAllAssets() {
         return assetRepository.findAll();
     }
 
+    // GET /api/assets/{id}
     @Override
     public Asset getAsset(Long id) {
-        return assetRepository.findById(id).orElseThrow();
+        return assetRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Asset not found"));
     }
 
+    // GET /api/assets/status/{status}
     @Override
     public List<Asset> getAssetsByStatus(String status) {
         return assetRepository.findByStatus(status);
