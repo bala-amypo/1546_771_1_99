@@ -30,7 +30,7 @@ public class DepreciationRule {
         this.usefulLife = usefulLife;
     }
 
-    // Getters & Setters
+    
     public Long getId() {
         return id;
     }

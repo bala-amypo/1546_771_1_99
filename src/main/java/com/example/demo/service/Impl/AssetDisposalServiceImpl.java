@@ -24,7 +24,7 @@ public class AssetDisposalServiceImpl implements AssetDisposalService {
         this.userRepository = userRepository;
     }
 
-    // POST /asset-disposals/{assetId}/{userId}
+    
     @Override
     public AssetDisposal disposeAsset(Long assetId, Long userId, AssetDisposal disposal) {
 

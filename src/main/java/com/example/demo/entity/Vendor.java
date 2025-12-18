@@ -14,15 +14,15 @@ public class Vendor {
     private String email;
     private String phone;
 
-    // One vendor can supply many assets
+    
     @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
     private List<Asset> assets;
 
-    // No-args constructor
+    
     public Vendor() {
     }
 
-    // All-args constructor
+    
     public Vendor(Long id, String name, String email, String phone) {
         this.id = id;
         this.name = name;
@@ -30,7 +30,7 @@ public class Vendor {
         this.phone = phone;
     }
 
-    // Getters & Setters
+    
     public Long getId() {
         return id;
     }

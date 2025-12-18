@@ -10,7 +10,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name; // Make sure this field exists
+    private String name; 
     private String email;
 
     public User() {}
@@ -20,7 +20,7 @@ public class User {
         this.email = email;
     }
 
-    // Getter and Setter for ID
+    
     public Long getId() {
         return id;
     }
@@ -29,7 +29,6 @@ public class User {
         this.id = id;
     }
 
-    // Getter and Setter for name
     public String getName() {
         return name;
     }
@@ -38,7 +37,7 @@ public class User {
         this.name = name;
     }
 
-    // Getter and Setter for email
+    
     public String getEmail() {
         return email;
     }
