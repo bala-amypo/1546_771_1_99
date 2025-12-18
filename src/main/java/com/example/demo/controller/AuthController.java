@@ -1,40 +1,27 @@
-
-
 package com.example.demo.controller;
 
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin
 public class AuthController {
 
     private final UserService userService;
 
-    public AuthController(UserService userService) { // only inject UserService
+    @Autowired
+    public AuthController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String email, @RequestParam String password) {
-
-        Optional<User> optionalUser = userService.findByEmail(email);
-
-        if (optionalUser.isEmpty()) {
-            return "Invalid email or password";
+    public String login(@RequestParam String email) {
+        User user = userService.findByEmail(email);
+        if (user == null) {
+            return "User not found!";
         }
-
-        User user = optionalUser.get();
-
-        if (!user.getPassword().equals(password)) { // simple plain-text check
-            return "Invalid email or password";
-        }
-
-        return "Login successful for " + user.getEmail();
+        return "Welcome " + user.getName();
     }
 }
