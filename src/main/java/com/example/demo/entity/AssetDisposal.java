@@ -1,67 +1,33 @@
-package com.example.demo.entity;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
+import com.example.demo.entity.AssetDisposal;
+import com.example.demo.service.AssetDisposalService;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
-@Entity
-@Table(name = "asset_disposal")
-public class AssetDisposal {
+import java.util.List;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@RestController
+@RequestMapping("/api/asset-disposals")
+@CrossOrigin
+public class AssetDisposalController {
 
-    private String reason;
-    private String status;
+    private final AssetDisposalService service;
 
-    @Column(name = "asset_id")
-    private Long assetId;
-
-    @Column(name = "requested_by")
-    private Long requestedBy;
-
-    // 🔴 REQUIRED: No-args constructor
-    public AssetDisposal() {
+    public AssetDisposalController(AssetDisposalService service) {
+        this.service = service;
     }
 
-    // ✅ Getters & Setters (MANDATORY for Swagger)
-
-    public Long getId() {
-        return id;
+    // ✅ POST → 201 CREATED
+    @PostMapping(consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public AssetDisposal requestDisposal(@RequestBody AssetDisposal disposal) {
+        return service.requestDisposal(disposal);
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Long getAssetId() {
-        return assetId;
-    }
-
-    public void setAssetId(Long assetId) {
-        this.assetId = assetId;
-    }
-
-    public Long getRequestedBy() {
-        return requestedBy;
-    }
-
-    public void setRequestedBy(Long requestedBy) {
-        this.requestedBy = requestedBy;
+    // GET → 200 OK
+    @GetMapping
+    public List<AssetDisposal> getAllDisposals() {
+        return service.getAllDisposals();
     }
 }
