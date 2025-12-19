@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.DepreciationRule;
 import com.example.demo.service.DepreciationRuleService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,13 +18,14 @@ public class DepreciationRuleController {
         this.service = service;
     }
 
-    // POST /api/depreciation-rules
+    // ✅ POST /api/depreciation-rules → 201 CREATED
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public DepreciationRule createRule(@RequestBody DepreciationRule rule) {
         return service.saveRule(rule);
     }
 
-    // GET /api/depreciation-rules
+    // ✅ GET /api/depreciation-rules → 200 OK
     @GetMapping
     public List<DepreciationRule> getAllRules() {
         return service.getAllRules();
