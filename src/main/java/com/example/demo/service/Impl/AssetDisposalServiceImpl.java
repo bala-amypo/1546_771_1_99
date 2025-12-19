@@ -18,7 +18,7 @@ public class AssetDisposalServiceImpl implements AssetDisposalService {
 
     @Override
     public AssetDisposal requestDisposal(AssetDisposal disposal) {
-        return repository.save(disposal);
+        return repository.save(disposal); // INSERT happens here
     }
 
     @Override
