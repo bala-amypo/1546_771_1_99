@@ -1,28 +1,24 @@
-package com.example.demo.service.Impl;
+package com.example.demo.service;
 
 import com.example.demo.entity.AssetDisposal;
 import com.example.demo.repository.AssetDisposalRepository;
-import com.example.demo.service.AssetDisposalService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class AssetDisposalServiceImpl implements AssetDisposalService {
+public class AssetDisposalService {
 
     private final AssetDisposalRepository repository;
 
-    public AssetDisposalServiceImpl(AssetDisposalRepository repository) {
+    public AssetDisposalService(AssetDisposalRepository repository) {
         this.repository = repository;
     }
 
-    @Override
     public AssetDisposal requestDisposal(AssetDisposal disposal) {
-        disposal.setStatus("REQUESTED");
-        return repository.save(disposal);
+        return repository.save(disposal); // 🔴 THIS INSERTS DATA
     }
 
-    @Override
     public List<AssetDisposal> getAllDisposals() {
         return repository.findAll();
     }
