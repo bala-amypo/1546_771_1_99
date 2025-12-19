@@ -1,30 +1,29 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Vendor;
-import com.example.demo.service.VendorService;
+import com.example.demo.repository.VendorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/vendors")
-@CrossOrigin
 public class VendorController {
 
-    private final VendorService service;
-
-    public VendorController(VendorService service) {
-        this.service = service;
-    }
+    @Autowired
+    private VendorRepository vendorRepository;
 
     
     @PostMapping
-    public Vendor createVendor(@RequestBody Vendor vendor) {
-        return service.saveVendor(vendor);
+    public ResponseEntity<Vendor> createVendor(@RequestBody Vendor vendor) {
+        Vendor savedVendor = vendorRepository.save(vendor);
+        return new ResponseEntity<>(savedVendor, HttpStatus.CREATED);
     }
 
+
     @GetMapping
-    public List<Vendor> getAllVendors() {
-        return service.getAllVendors();
+    public ResponseEntity<?> getAllVendors() {
+        return ResponseEntity.ok(vendorRepository.findAll());
     }
 }
