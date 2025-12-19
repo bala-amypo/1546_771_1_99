@@ -18,14 +18,13 @@ public class AssetDisposalController {
         this.service = service;
     }
 
-    // ✅ POST → 201 CREATED
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AssetDisposal requestDisposal(@RequestBody AssetDisposal disposal) {
         return service.requestDisposal(disposal);
     }
 
-    // GET → 200 OK
     @GetMapping
     public List<AssetDisposal> getAllDisposals() {
         return service.getAllDisposals();
