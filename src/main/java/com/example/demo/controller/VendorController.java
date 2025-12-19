@@ -17,13 +17,12 @@ public class VendorController {
         this.service = service;
     }
 
-    // POST /vendors
+    
     @PostMapping
     public Vendor createVendor(@RequestBody Vendor vendor) {
         return service.saveVendor(vendor);
     }
 
-    // GET /vendors
     @GetMapping
     public List<Vendor> getAllVendors() {
         return service.getAllVendors();
