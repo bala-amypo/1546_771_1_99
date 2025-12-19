@@ -25,7 +25,7 @@ public class AssetDisposalController {
         return service.requestDisposal(disposal);
     }
 
-    // GET
+    // GET → 200 OK
     @GetMapping
     public List<AssetDisposal> getAllDisposals() {
         return service.getAllDisposals();
