@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "asset_disposal")
 public class AssetDisposal {
 
     @Id
@@ -10,18 +11,19 @@ public class AssetDisposal {
     private Long id;
 
     private String reason;
+
     private String status;
 
-    @ManyToOne
-    @JoinColumn(name = "asset_id")
-    private Asset asset;
+    @Column(name = "asset_id")
+    private Long assetId;
 
-    @ManyToOne
-    @JoinColumn(name = "requested_by")
-    private User requestedBy;
+    @Column(name = "requested_by")
+    private Long requestedBy;
 
-    public AssetDisposal() {}
+    public AssetDisposal() {
+    }
 
+    // getters and setters
     public Long getId() {
         return id;
     }
@@ -46,19 +48,19 @@ public class AssetDisposal {
         this.status = status;
     }
 
-    public Asset getAsset() {
-        return asset;
+    public Long getAssetId() {
+        return assetId;
     }
 
-    public void setAsset(Asset asset) {
-        this.asset = asset;
+    public void setAssetId(Long assetId) {
+        this.assetId = assetId;
     }
 
-    public User getRequestedBy() {
+    public Long getRequestedBy() {
         return requestedBy;
     }
 
-    public void setRequestedBy(User requestedBy) {
+    public void setRequestedBy(Long requestedBy) {
         this.requestedBy = requestedBy;
     }
 }
