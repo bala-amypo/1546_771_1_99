@@ -1,33 +1,66 @@
-package com.example.demo.controller;
+package com.example.demo.entity;
 
-import com.example.demo.entity.AssetDisposal;
-import com.example.demo.service.AssetDisposalService;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
-import java.util.List;
+@Entity
+@Table(name = "asset_disposal")
+public class AssetDisposal {
 
-@RestController
-@RequestMapping("/api/asset-disposals")
-@CrossOrigin
-public class AssetDisposalController {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
+    private Long id;
 
-    private final AssetDisposalService service;
+    private String reason;
+    private String status;
 
-    public AssetDisposalController(AssetDisposalService service) {
-        this.service = service;
+    @Column(name = "asset_id")
+    private Long assetId;
+
+    @Column(name = "requested_by")
+    private Long requestedBy;
+
+    public AssetDisposal() {
     }
 
-    // ✅ POST → 201 CREATED
-    @PostMapping(consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    public AssetDisposal requestDisposal(@RequestBody AssetDisposal disposal) {
-        return service.requestDisposal(disposal);
+    public Long getId() {
+        return id;
     }
 
-    // GET → 200 OK
-    @GetMapping
-    public List<AssetDisposal> getAllDisposals() {
-        return service.getAllDisposals();
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Long getAssetId() {
+        return assetId;
+    }
+
+    public void setAssetId(Long assetId) {
+        this.assetId = assetId;
+    }
+
+    public Long getRequestedBy() {
+        return requestedBy;
+    }
+
+    public void setRequestedBy(Long requestedBy) {
+        this.requestedBy = requestedBy;
     }
 }
