@@ -12,7 +12,16 @@ public class Vendor {
     private String name;
     private String contact;
 
-    public Vendor() {}
+
+    public Vendor() {
+    }
+    public Vendor(Long id, String name, String contact) {
+        this.id = id;
+        this.name = name;
+        this.contact = contact;
+    }
+
+
 
     public Long getId() {
         return id;
