@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.AssetDisposal;
 import com.example.demo.service.AssetDisposalService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,13 +18,14 @@ public class AssetDisposalController {
         this.service = service;
     }
 
-    // POST /api/asset-disposals
+    // ✅ POST /api/asset-disposals → 201 CREATED
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public AssetDisposal requestDisposal(@RequestBody AssetDisposal disposal) {
         return service.requestDisposal(disposal);
     }
 
-    // GET /api/asset-disposals
+    // ✅ GET /api/asset-disposals → 200 OK
     @GetMapping
     public List<AssetDisposal> getAllDisposals() {
         return service.getAllDisposals();
