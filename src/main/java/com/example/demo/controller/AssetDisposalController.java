@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/disposals") // 🔥 THIS MUST MATCH URL
+@RequestMapping("/api/asset-disposals")
 @CrossOrigin
 public class AssetDisposalController {
 
@@ -17,28 +17,29 @@ public class AssetDisposalController {
         this.service = service;
     }
 
-    // ✅ POST → 201 CREATED
+    // ===============================
+    // POST /api/asset-disposals/request/{assetId}
+    // Request asset disposal (201)
+    // ===============================
     @PostMapping("/request/{assetId}")
-    public ResponseEntity<?> requestDisposal(
+    public ResponseEntity<AssetDisposal> requestDisposal(
             @PathVariable Long assetId,
             @RequestBody AssetDisposal disposal) {
 
-        try {
-            AssetDisposal saved = service.requestDisposal(assetId, disposal);
-            return ResponseEntity.status(HttpStatus.CREATED).body(saved);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(e.getMessage());
-        }
+        AssetDisposal saved = service.requestDisposal(assetId, disposal);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
-    // ✅ PUT approve
+    // ===============================
+    // PUT /api/asset-disposals/approve/{disposalId}/{adminId}
+    // Approve asset disposal
+    // ===============================
     @PutMapping("/approve/{disposalId}/{adminId}")
     public ResponseEntity<AssetDisposal> approveDisposal(
             @PathVariable Long disposalId,
             @PathVariable Long adminId) {
 
-        return ResponseEntity.ok(service.approveDisposal(disposalId, adminId));
+        AssetDisposal approved = service.approveDisposal(disposalId, adminId);
+        return ResponseEntity.ok(approved);
     }
 }
