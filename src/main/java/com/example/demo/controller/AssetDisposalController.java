@@ -17,33 +17,23 @@ public class AssetDisposalController {
         this.service = service;
     }
 
-    // ✅ POST → 201 CREATED
-    @PostMapping("/request/{assetId}")
-    public ResponseEntity<?> requestDisposal(
-            @PathVariable Long assetId,
+    // ✅ MATCHES YOUR CURL
+    @PostMapping
+    public ResponseEntity<AssetDisposal> requestDisposal(
             @RequestBody AssetDisposal disposal) {
 
-        try {
-            AssetDisposal saved = service.requestDisposal(assetId, disposal);
-            return ResponseEntity.status(HttpStatus.CREATED).body(saved);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        AssetDisposal saved = service.requestDisposal(disposal);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
-    // ✅ PUT → APPROVE
+    // ✅ PUT approve
     @PutMapping("/approve/{disposalId}/{adminId}")
-    public ResponseEntity<?> approveDisposal(
+    public ResponseEntity<AssetDisposal> approveDisposal(
             @PathVariable Long disposalId,
             @PathVariable Long adminId) {
 
-        try {
-            return ResponseEntity.ok(
-                    service.approveDisposal(disposalId, adminId)
-            );
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(e.getMessage());
-        }
+        return ResponseEntity.ok(
+                service.approveDisposal(disposalId, adminId)
+        );
     }
 }
