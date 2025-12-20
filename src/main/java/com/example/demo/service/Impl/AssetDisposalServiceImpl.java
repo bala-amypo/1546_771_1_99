@@ -1,4 +1,4 @@
-package com.example.demo.service.Impl;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.AssetDisposal;
 import com.example.demo.repository.AssetDisposalRepository;
@@ -18,7 +18,7 @@ public class AssetDisposalServiceImpl implements AssetDisposalService {
 
     @Override
     public AssetDisposal requestDisposal(AssetDisposal disposal) {
-        return repository.save(disposal);
+        return repository.save(disposal); // INSERTS INTO TABLE
     }
 
     @Override

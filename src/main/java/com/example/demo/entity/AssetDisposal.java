@@ -1,6 +1,5 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,7 +8,6 @@ public class AssetDisposal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
 
     private String reason;
@@ -21,9 +19,11 @@ public class AssetDisposal {
     @Column(name = "requested_by")
     private Long requestedBy;
 
+    // Required by JPA
     public AssetDisposal() {
     }
 
+    // getters & setters
     public Long getId() {
         return id;
     }
