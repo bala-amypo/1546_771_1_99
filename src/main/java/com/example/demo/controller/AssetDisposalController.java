@@ -17,32 +17,32 @@ public class AssetDisposalController {
         this.service = service;
     }
 
-    // ===============================
-    // POST /api/asset-disposals
-    // Request asset disposal (201)
-    // ===============================
+    // ✅ POST – 201 CREATED
     @PostMapping
-    public ResponseEntity<AssetDisposal> requestDisposal(
-            @RequestBody AssetDisposal disposal) {
-
-        disposal.setStatus("PENDING");
-
-        AssetDisposal saved = service.requestDisposal(
-                disposal.getAssetId(), disposal);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    public ResponseEntity<?> requestDisposal(@RequestBody AssetDisposal disposal) {
+        try {
+            AssetDisposal saved = service.requestDisposal(disposal);
+            return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
     }
 
-    // ===============================
-    // PUT /api/asset-disposals/approve/{disposalId}/{adminId}
-    // Approve disposal
-    // ===============================
+    // ✅ PUT – APPROVE
     @PutMapping("/approve/{disposalId}/{adminId}")
-    public ResponseEntity<AssetDisposal> approveDisposal(
+    public ResponseEntity<?> approveDisposal(
             @PathVariable Long disposalId,
             @PathVariable Long adminId) {
 
-        AssetDisposal approved = service.approveDisposal(disposalId, adminId);
-        return ResponseEntity.ok(approved);
+        try {
+            AssetDisposal approved = service.approveDisposal(disposalId, adminId);
+            return ResponseEntity.ok(approved);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        }
     }
 }
