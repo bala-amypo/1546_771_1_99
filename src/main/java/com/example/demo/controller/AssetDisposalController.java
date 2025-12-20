@@ -19,14 +19,21 @@ public class AssetDisposalController {
         this.service = service;
     }
 
+    // ✅ POST → 201 CREATED
     @PostMapping
-    public ResponseEntity<AssetDisposal> requestDisposal(
-            @RequestBody AssetDisposal disposal) {
-
-        AssetDisposal saved = service.requestDisposal(disposal);
-        return new ResponseEntity<>(saved, HttpStatus.CREATED); // ✅ 201
+    public ResponseEntity<?> requestDisposal(@RequestBody AssetDisposal disposal) {
+        try {
+            AssetDisposal saved = service.requestDisposal(disposal);
+            return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        } catch (Exception e) {
+            e.printStackTrace(); // 🔴 check console output
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
     }
 
+    // GET → 200 OK
     @GetMapping
     public List<AssetDisposal> getAllDisposals() {
         return service.getAllDisposals();
