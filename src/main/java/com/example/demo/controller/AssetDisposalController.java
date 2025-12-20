@@ -18,21 +18,24 @@ public class AssetDisposalController {
     }
 
     // ===============================
-    // POST /api/asset-disposals/request/{assetId}
+    // POST /api/asset-disposals
     // Request asset disposal (201)
     // ===============================
-    @PostMapping("/request/{assetId}")
+    @PostMapping
     public ResponseEntity<AssetDisposal> requestDisposal(
-            @PathVariable Long assetId,
             @RequestBody AssetDisposal disposal) {
 
-        AssetDisposal saved = service.requestDisposal(assetId, disposal);
+        disposal.setStatus("PENDING");
+
+        AssetDisposal saved = service.requestDisposal(
+                disposal.getAssetId(), disposal);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     // ===============================
     // PUT /api/asset-disposals/approve/{disposalId}/{adminId}
-    // Approve asset disposal
+    // Approve disposal
     // ===============================
     @PutMapping("/approve/{disposalId}/{adminId}")
     public ResponseEntity<AssetDisposal> approveDisposal(
