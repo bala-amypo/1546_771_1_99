@@ -12,9 +12,9 @@ public class AssetDisposal {
 
     private String reason;
 
-    private String status; // REQUESTED / APPROVED
+    private String status;
 
-    @Column(name = "asset_id")
+    @Column(name = "asset_id", nullable = false)
     private Long assetId;
 
     @Column(name = "requested_by")
@@ -23,11 +23,14 @@ public class AssetDisposal {
     @Column(name = "approved_by")
     private Long approvedBy;
 
-    public AssetDisposal() {}
+    // ===== Getters & Setters =====
 
-    // getters & setters
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getReason() {
