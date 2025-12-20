@@ -3,7 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "assets")
+@Table(name = "asset")
 public class Asset {
 
     @Id
@@ -11,32 +11,18 @@ public class Asset {
     private Long id;
 
     private String name;
-
     private String status;
 
-    @ManyToOne
-    @JoinColumn(name = "vendor_id")
-    private Vendor vendor;
+    @Column(name = "vendor_id")
+    private Long vendorId;
 
-    @ManyToOne
-    @JoinColumn(name = "rule_id")
-    private DepreciationRule depreciationRule;
+    @Column(name = "rule_id")
+    private Long ruleId;
 
-    // ✅ REQUIRED BY JPA
-    public Asset() {
-    }
+    // REQUIRED by JPA
+    public Asset() {}
 
-    public Asset(Long id, String name, String status,
-                 Vendor vendor, DepreciationRule depreciationRule) {
-        this.id = id;
-        this.name = name;
-        this.status = status;
-        this.vendor = vendor;
-        this.depreciationRule = depreciationRule;
-    }
-
-    // ---------------- GETTERS & SETTERS ----------------
-
+    // getters & setters
     public Long getId() {
         return id;
     }
@@ -61,20 +47,19 @@ public class Asset {
         this.status = status;
     }
 
-    // 🔥 THESE TWO METHODS FIX YOUR ERROR 🔥
-    public Vendor getVendor() {
-        return vendor;
+    public Long getVendorId() {
+        return vendorId;
     }
 
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
+    public void setVendorId(Long vendorId) {
+        this.vendorId = vendorId;
     }
 
-    public DepreciationRule getDepreciationRule() {
-        return depreciationRule;
+    public Long getRuleId() {
+        return ruleId;
     }
 
-    public void setDepreciationRule(DepreciationRule depreciationRule) {
-        this.depreciationRule = depreciationRule;
+    public void setRuleId(Long ruleId) {
+        this.ruleId = ruleId;
     }
 }
