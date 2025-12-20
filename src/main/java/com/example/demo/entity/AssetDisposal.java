@@ -17,59 +17,28 @@ public class AssetDisposal {
     @Column(name = "asset_id", nullable = false)
     private Long assetId;
 
-    @Column(name = "requested_by")
+    @Column(name = "requested_by", nullable = false)
     private Long requestedBy;
 
     @Column(name = "approved_by")
     private Long approvedBy;
 
-    // ===== Getters & Setters =====
+    // getters & setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getReason() { return reason; }
+    public void setReason(String reason) { this.reason = reason; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public String getReason() {
-        return reason;
-    }
+    public Long getAssetId() { return assetId; }
+    public void setAssetId(Long assetId) { this.assetId = assetId; }
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
+    public Long getRequestedBy() { return requestedBy; }
+    public void setRequestedBy(Long requestedBy) { this.requestedBy = requestedBy; }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Long getAssetId() {
-        return assetId;
-    }
-
-    public void setAssetId(Long assetId) {
-        this.assetId = assetId;
-    }
-
-    public Long getRequestedBy() {
-        return requestedBy;
-    }
-
-    public void setRequestedBy(Long requestedBy) {
-        this.requestedBy = requestedBy;
-    }
-
-    public Long getApprovedBy() {
-        return approvedBy;
-    }
-
-    public void setApprovedBy(Long approvedBy) {
-        this.approvedBy = approvedBy;
-    }
+    public Long getApprovedBy() { return approvedBy; }
+    public void setApprovedBy(Long approvedBy) { this.approvedBy = approvedBy; }
 }
