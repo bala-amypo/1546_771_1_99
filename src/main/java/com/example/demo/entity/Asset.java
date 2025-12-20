@@ -3,26 +3,31 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "asset")
+@Table(name = "assets")
 public class Asset {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String status;
 
-    @Column(name = "vendor_id")
-    private Long vendorId;
+    @ManyToOne
+    @JoinColumn(name = "vendor_id")
+    private Vendor vendor;
 
-    @Column(name = "rule_id")
-    private Long ruleId;
+    @ManyToOne
+    @JoinColumn(name = "depreciation_rule_id")
+    private DepreciationRule depreciationRule;
 
-    // REQUIRED by JPA
+    // Required by JPA
     public Asset() {}
 
-    // getters & setters
+    // Getters & Setters
     public Long getId() {
         return id;
     }
@@ -47,19 +52,19 @@ public class Asset {
         this.status = status;
     }
 
-    public Long getVendorId() {
-        return vendorId;
+    public Vendor getVendor() {
+        return vendor;
     }
 
-    public void setVendorId(Long vendorId) {
-        this.vendorId = vendorId;
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }
 
-    public Long getRuleId() {
-        return ruleId;
+    public DepreciationRule getDepreciationRule() {
+        return depreciationRule;
     }
 
-    public void setRuleId(Long ruleId) {
-        this.ruleId = ruleId;
+    public void setDepreciationRule(DepreciationRule depreciationRule) {
+        this.depreciationRule = depreciationRule;
     }
 }
