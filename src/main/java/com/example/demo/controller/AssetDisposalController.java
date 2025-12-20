@@ -17,31 +17,32 @@ public class AssetDisposalController {
         this.service = service;
     }
 
-    // ✅ POST – 201 CREATED
-    @PostMapping
-    public ResponseEntity<?> requestDisposal(@RequestBody AssetDisposal disposal) {
+    // ✅ POST → 201 CREATED
+    @PostMapping("/request/{assetId}")
+    public ResponseEntity<?> requestDisposal(
+            @PathVariable Long assetId,
+            @RequestBody AssetDisposal disposal) {
+
         try {
-            AssetDisposal saved = service.requestDisposal(disposal);
+            AssetDisposal saved = service.requestDisposal(assetId, disposal);
             return ResponseEntity.status(HttpStatus.CREATED).body(saved);
         } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    // ✅ PUT – APPROVE
+    // ✅ PUT → APPROVE
     @PutMapping("/approve/{disposalId}/{adminId}")
     public ResponseEntity<?> approveDisposal(
             @PathVariable Long disposalId,
             @PathVariable Long adminId) {
 
         try {
-            AssetDisposal approved = service.approveDisposal(disposalId, adminId);
-            return ResponseEntity.ok(approved);
+            return ResponseEntity.ok(
+                    service.approveDisposal(disposalId, adminId)
+            );
         } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(e.getMessage());
         }
     }

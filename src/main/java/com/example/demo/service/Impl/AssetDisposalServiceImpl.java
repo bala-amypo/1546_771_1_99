@@ -15,14 +15,14 @@ public class AssetDisposalServiceImpl implements AssetDisposalService {
     }
 
     @Override
-    public AssetDisposal requestDisposal(AssetDisposal disposal) {
+    public AssetDisposal requestDisposal(Long assetId, AssetDisposal disposal) {
 
-        // 🔒 HARD SAFETY (prevents 500)
-        if (disposal.getAssetId() == null || disposal.getRequestedBy() == null) {
+        if (assetId == null || disposal.getRequestedBy() == null) {
             throw new RuntimeException("assetId and requestedBy are required");
         }
 
         disposal.setId(null);
+        disposal.setAssetId(assetId);
         disposal.setStatus("PENDING");
 
         return repository.save(disposal);
