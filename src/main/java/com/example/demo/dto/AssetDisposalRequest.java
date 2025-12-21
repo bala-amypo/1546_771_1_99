@@ -1,34 +1,22 @@
 package com.example.demo.dto;
 
-import java.time.LocalDate;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 
+@Schema(name = "AssetDisposalCreateRequest")
 public class AssetDisposalRequest {
 
+    @NotNull(message = "disposalMethod is required")
     private String disposalMethod;
+
+    @DecimalMin(value = "0.0", message = "disposalValue must be >= 0")
     private Double disposalValue;
-    private LocalDate disposalDate;
 
-    public String getDisposalMethod() {
-        return disposalMethod;
-    }
+    // Getters and Setters
+    public String getDisposalMethod() { return disposalMethod; }
+    public void setDisposalMethod(String disposalMethod) { this.disposalMethod = disposalMethod; }
 
-    public void setDisposalMethod(String disposalMethod) {
-        this.disposalMethod = disposalMethod;
-    }
-
-    public Double getDisposalValue() {
-        return disposalValue;
-    }
-
-    public void setDisposalValue(Double disposalValue) {
-        this.disposalValue = disposalValue;
-    }
-
-    public LocalDate getDisposalDate() {
-        return disposalDate;
-    }
-
-    public void setDisposalDate(LocalDate disposalDate) {
-        this.disposalDate = disposalDate;
-    }
+    public Double getDisposalValue() { return disposalValue; }
+    public void setDisposalValue(Double disposalValue) { this.disposalValue = disposalValue; }
 }
