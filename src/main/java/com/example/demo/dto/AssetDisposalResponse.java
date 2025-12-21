@@ -1,5 +1,8 @@
 package com.example.demo.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;  // ← Add this import
+
+@Schema(name = "AssetDisposalResponse")  // ← Explicit unique name for response
 public class AssetDisposalResponse {
 
     private Long id;
@@ -20,7 +23,7 @@ public class AssetDisposalResponse {
         this.approvedBy = entity.getApprovedBy();
     }
 
-    // Getters and Setters
+    // Getters and Setters (unchanged)
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getReason() { return reason; }
