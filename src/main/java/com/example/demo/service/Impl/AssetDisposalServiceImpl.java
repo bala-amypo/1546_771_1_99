@@ -1,4 +1,4 @@
-package com.example.demo.service.Impl;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.AssetDisposal;
 import com.example.demo.repository.AssetDisposalRepository;
@@ -17,12 +17,7 @@ public class AssetDisposalServiceImpl implements AssetDisposalService {
     @Override
     public AssetDisposal requestDisposal(AssetDisposal disposal) {
 
-        if (disposal.getAssetId() == null || disposal.getRequestedBy() == null) {
-            throw new RuntimeException("assetId and requestedBy are required");
-        }
-
-        disposal.setId(null);
-        disposal.setStatus("PENDING");
+        disposal.setStatus("PENDING"); // backend control
 
         return repository.save(disposal);
     }
@@ -31,7 +26,8 @@ public class AssetDisposalServiceImpl implements AssetDisposalService {
     public AssetDisposal approveDisposal(Long disposalId, Long adminId) {
 
         AssetDisposal disposal = repository.findById(disposalId)
-                .orElseThrow(() -> new RuntimeException("Disposal not found"));
+                .orElseThrow(() ->
+                        new RuntimeException("Disposal not found"));
 
         disposal.setStatus("APPROVED");
         disposal.setApprovedBy(adminId);
