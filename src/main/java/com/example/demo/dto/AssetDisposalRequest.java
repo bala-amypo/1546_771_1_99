@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 
-@Schema(name = "AssetDisposalCreateRequest")
+@Schema(name = "AssetDisposalCreateRequest")  // Unique name - prevents wrong example
 public class AssetDisposalRequest {
 
     @NotNull(message = "disposalMethod is required")

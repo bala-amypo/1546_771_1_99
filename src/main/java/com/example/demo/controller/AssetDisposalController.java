@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.AssetDisposalRequest;
+import com.example.demo.dto.AssetDisposalResponse;
 import com.example.demo.entity.AssetDisposal;
 import com.example.demo.service.AssetDisposalService;
 import jakarta.validation.Valid;
@@ -18,23 +20,25 @@ public class AssetDisposalController {
         this.service = service;
     }
 
-    // POST /api/disposals/request/{assetId} - Request disposal
     @PostMapping("/request/{assetId}")
-    public ResponseEntity<AssetDisposal> requestDisposal(
+    public ResponseEntity<AssetDisposalResponse> requestDisposal(
             @PathVariable Long assetId,
-            @Valid @RequestBody AssetDisposal disposal) {
+            @Valid @RequestBody AssetDisposalRequest requestDto) {
+
+        AssetDisposal disposal = new AssetDisposal();
+        disposal.setDisposalMethod(requestDto.getDisposalMethod());
+        disposal.setDisposalValue(requestDto.getDisposalValue());
 
         AssetDisposal saved = service.requestDisposal(assetId, disposal);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new AssetDisposalResponse(saved));
     }
 
-    // PUT /api/disposals/approve/{disposalId}/{adminId} - Approve disposal
     @PutMapping("/approve/{disposalId}/{adminId}")
-    public ResponseEntity<AssetDisposal> approveDisposal(
+    public ResponseEntity<AssetDisposalResponse> approveDisposal(
             @PathVariable Long disposalId,
             @PathVariable Long adminId) {
 
         AssetDisposal approved = service.approveDisposal(disposalId, adminId);
-        return ResponseEntity.ok(approved);
+        return ResponseEntity.ok(new AssetDisposalResponse(approved));
     }
 }
