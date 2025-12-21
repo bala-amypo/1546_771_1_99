@@ -1,8 +1,9 @@
-// src/main/java/com/example/demo/dto/AssetDisposalRequest.java
 package com.example.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotNull;
 
+@JsonIgnoreProperties(ignoreUnknown = true)  // ← THIS FIXES THE 500 ERROR
 public class AssetDisposalRequest {
 
     private String reason;

@@ -1,6 +1,6 @@
-// src/main/java/com/example/demo/service/impl/AssetDisposalServiceImpl.java
-package com.example.demo.service.impl;
+package com.example.demo.service.Impl;
 
+import com.example.demo.dto.AssetDisposalResponse;
 import com.example.demo.entity.AssetDisposal;
 import com.example.demo.repository.AssetDisposalRepository;
 import com.example.demo.service.AssetDisposalService;
@@ -16,18 +16,24 @@ public class AssetDisposalServiceImpl implements AssetDisposalService {
     }
 
     @Override
-    public AssetDisposal requestDisposal(AssetDisposal disposal) {
+    public AssetDisposalResponse requestDisposal(AssetDisposal disposal) {
         disposal.setStatus("PENDING");
-        return repository.save(disposal);
+        AssetDisposal saved = repository.save(disposal);
+        return new AssetDisposalResponse(saved);
     }
 
     @Override
-    public AssetDisposal approveDisposal(Long disposalId, Long adminId) {
+    public AssetDisposalResponse approveDisposal(Long disposalId, Long adminId) {
         AssetDisposal disposal = repository.findById(disposalId)
                 .orElseThrow(() -> new RuntimeException("Disposal request not found"));
 
+        if (!"PENDING".equals(disposal.getStatus())) {
+            throw new RuntimeException("Only PENDING disposals can be approved");
+        }
+
         disposal.setStatus("APPROVED");
         disposal.setApprovedBy(adminId);
-        return repository.save(disposal);
+        AssetDisposal saved = repository.save(disposal);
+        return new AssetDisposalResponse(saved);
     }
 }

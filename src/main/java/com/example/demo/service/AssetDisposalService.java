@@ -1,9 +1,9 @@
-// src/main/java/com/example/demo/service/AssetDisposalService.java
 package com.example.demo.service;
 
+import com.example.demo.dto.AssetDisposalResponse;
 import com.example.demo.entity.AssetDisposal;
 
 public interface AssetDisposalService {
-    AssetDisposal requestDisposal(AssetDisposal disposal);
-    AssetDisposal approveDisposal(Long disposalId, Long adminId);
+    AssetDisposalResponse requestDisposal(AssetDisposal disposal);
+    AssetDisposalResponse approveDisposal(Long disposalId, Long adminId);
 }
