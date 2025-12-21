@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/asset-disposals")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class AssetDisposalController {
 
     private final AssetDisposalService service;

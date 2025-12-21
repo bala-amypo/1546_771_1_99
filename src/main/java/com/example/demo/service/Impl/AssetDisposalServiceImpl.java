@@ -27,10 +27,6 @@ public class AssetDisposalServiceImpl implements AssetDisposalService {
         AssetDisposal disposal = repository.findById(disposalId)
                 .orElseThrow(() -> new RuntimeException("Disposal request not found"));
 
-        if (!"PENDING".equals(disposal.getStatus())) {
-            throw new RuntimeException("Only PENDING disposals can be approved");
-        }
-
         disposal.setStatus("APPROVED");
         disposal.setApprovedBy(adminId);
         AssetDisposal saved = repository.save(disposal);
