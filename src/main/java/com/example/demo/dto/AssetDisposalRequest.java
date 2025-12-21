@@ -3,7 +3,7 @@ package com.example.demo.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotNull;
 
-@JsonIgnoreProperties(ignoreUnknown = true)  // ← CRITICAL: Ignores extra fields like "status", "id"
+@JsonIgnoreProperties(ignoreUnknown = true)  // Extra safety — ignores unknown fields locally too
 public class AssetDisposalRequest {
 
     private String reason;

@@ -1,7 +1,5 @@
 package com.example.demo.dto;
 
-import com.example.demo.entity.AssetDisposal;
-
 public class AssetDisposalResponse {
 
     private Long id;
@@ -13,7 +11,7 @@ public class AssetDisposalResponse {
 
     public AssetDisposalResponse() {}
 
-    public AssetDisposalResponse(AssetDisposal entity) {
+    public AssetDisposalResponse(com.example.demo.entity.AssetDisposal entity) {
         this.id = entity.getId();
         this.reason = entity.getReason();
         this.status = entity.getStatus();
