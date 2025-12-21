@@ -1,8 +1,8 @@
 package com.example.demo.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;  // ← Add this import
+import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(name = "AssetDisposalResponse")  // ← Explicit unique name for response
+@Schema(name = "AssetDisposalResponseDto")  // ← Unique name - prevents reuse
 public class AssetDisposalResponse {
 
     private Long id;
@@ -23,7 +23,7 @@ public class AssetDisposalResponse {
         this.approvedBy = entity.getApprovedBy();
     }
 
-    // Getters and Setters (unchanged)
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getReason() { return reason; }
