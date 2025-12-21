@@ -14,20 +14,25 @@ public class AssetDisposalServiceImpl implements AssetDisposalService {
         this.repository = repository;
     }
 
+    // ================= POST : Request Disposal =================
     @Override
     public AssetDisposal requestDisposal(AssetDisposal disposal) {
 
-        disposal.setStatus("PENDING"); // backend control
+        // default status
+        if (disposal.getStatus() == null) {
+            disposal.setStatus("PENDING");
+        }
 
         return repository.save(disposal);
     }
 
+    // ================= PUT : Approve Disposal =================
     @Override
     public AssetDisposal approveDisposal(Long disposalId, Long adminId) {
 
         AssetDisposal disposal = repository.findById(disposalId)
                 .orElseThrow(() ->
-                        new RuntimeException("Disposal not found"));
+                        new RuntimeException("AssetDisposal not found with id: " + disposalId));
 
         disposal.setStatus("APPROVED");
         disposal.setApprovedBy(adminId);
