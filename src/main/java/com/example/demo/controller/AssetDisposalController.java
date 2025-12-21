@@ -15,9 +15,9 @@ public class AssetDisposalController {
     @Autowired
     private AssetDisposalService disposalService;
 
-    // ✅ Request asset disposal (FIXED)
+    // ✅ POST – Request disposal
     @PostMapping("/request/{assetId}")
-    public ResponseEntity<AssetDisposal> requestDisposal(
+    public ResponseEntity<String> requestDisposal(
             @PathVariable Long assetId,
             @RequestBody AssetDisposalRequest request) {
 
@@ -26,19 +26,19 @@ public class AssetDisposalController {
         disposal.setDisposalValue(request.getDisposalValue());
         disposal.setDisposalDate(request.getDisposalDate());
 
-        return ResponseEntity.ok(
-                disposalService.requestDisposal(assetId, disposal)
-        );
+        disposalService.requestDisposal(assetId, disposal);
+
+        return ResponseEntity.ok("Asset disposal request created successfully");
     }
 
-    // ✅ Approve disposal (NO CHANGE NEEDED)
+    // ✅ PUT – Approve disposal
     @PutMapping("/approve/{disposalId}/{adminId}")
-    public ResponseEntity<AssetDisposal> approveDisposal(
+    public ResponseEntity<String> approveDisposal(
             @PathVariable Long disposalId,
             @PathVariable Long adminId) {
 
-        return ResponseEntity.ok(
-                disposalService.approveDisposal(disposalId, adminId)
-        );
+        disposalService.approveDisposal(disposalId, adminId);
+
+        return ResponseEntity.ok("Asset disposal approved successfully");
     }
 }
