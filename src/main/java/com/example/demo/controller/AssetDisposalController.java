@@ -1,44 +1,38 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.AssetDisposalRequest;
-import com.example.demo.dto.AssetDisposalResponse;
-import com.example.demo.entity.AssetDisposal;
-import com.example.demo.service.AssetDisposalService;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.entity.AssetDisposal;
+import com.example.demo.service.AssetDisposalService;
+
 @RestController
-@RequestMapping("/api/asset-disposals")
-@CrossOrigin(origins = "*")
+@RequestMapping("/api/disposals")
 public class AssetDisposalController {
 
-    private final AssetDisposalService service;
+    @Autowired
+    private AssetDisposalService disposalService;
 
-    public AssetDisposalController(AssetDisposalService service) {
-        this.service = service;
+    // Request asset disposal
+    @PostMapping("/request/{assetId}")
+    public ResponseEntity<AssetDisposal> requestDisposal(
+            @PathVariable Long assetId,
+            @RequestBody AssetDisposal disposal) {
+
+        return ResponseEntity.ok(
+                disposalService.requestDisposal(assetId, disposal)
+        );
     }
 
-    @PostMapping
-    public ResponseEntity<AssetDisposalResponse> requestDisposal(
-            @Valid @RequestBody AssetDisposalRequest requestDto) {
-
-        AssetDisposal disposal = new AssetDisposal();
-        disposal.setReason(requestDto.getReason());
-        disposal.setAssetId(requestDto.getAssetId());
-        disposal.setRequestedBy(requestDto.getRequestedBy());
-
-        AssetDisposalResponse response = service.requestDisposal(disposal);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
+    // Approve disposal
     @PutMapping("/approve/{disposalId}/{adminId}")
-    public ResponseEntity<AssetDisposalResponse> approveDisposal(
+    public ResponseEntity<AssetDisposal> approveDisposal(
             @PathVariable Long disposalId,
             @PathVariable Long adminId) {
 
-        AssetDisposalResponse response = service.approveDisposal(disposalId, adminId);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(
+                disposalService.approveDisposal(disposalId, adminId)
+        );
     }
 }

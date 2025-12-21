@@ -1,38 +1,90 @@
 package com.example.demo.entity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "asset_disposal")
 public class AssetDisposal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String reason;
-    private String status;
+    // One disposal for one asset
+    @OneToOne
+    @JoinColumn(name = "asset_id")
+    private Asset asset;
 
-    @Column(name = "asset_id", nullable = false)
-    private Long assetId;
+    private String disposalMethod;
 
-    @Column(name = "requested_by")
-    private Long requestedBy;
+    private Double disposalValue;
 
-    @Column(name = "approved_by")
-    private Long approvedBy;
+    private LocalDate disposalDate;
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getReason() { return reason; }
-    public void setReason(String reason) { this.reason = reason; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public Long getAssetId() { return assetId; }
-    public void setAssetId(Long assetId) { this.assetId = assetId; }
-    public Long getRequestedBy() { return requestedBy; }
-    public void setRequestedBy(Long requestedBy) { this.requestedBy = requestedBy; }
-    public Long getApprovedBy() { return approvedBy; }
-    public void setApprovedBy(Long approvedBy) { this.approvedBy = approvedBy; }
+    // Many disposals can be approved by one user (Admin)
+    @ManyToOne
+    @JoinColumn(name = "approved_by")
+    private User approvedBy;
+
+    private LocalDateTime createdAt;
+
+    public AssetDisposal() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Asset getAsset() {
+        return asset;
+    }
+
+    public void setAsset(Asset asset) {
+        this.asset = asset;
+    }
+
+    public String getDisposalMethod() {
+        return disposalMethod;
+    }
+
+    public void setDisposalMethod(String disposalMethod) {
+        this.disposalMethod = disposalMethod;
+    }
+
+    public Double getDisposalValue() {
+        return disposalValue;
+    }
+
+    public void setDisposalValue(Double disposalValue) {
+        this.disposalValue = disposalValue;
+    }
+
+    public LocalDate getDisposalDate() {
+        return disposalDate;
+    }
+
+    public void setDisposalDate(LocalDate disposalDate) {
+        this.disposalDate = disposalDate;
+    }
+
+    public User getApprovedBy() {
+        return approvedBy;
+    }
+
+    public void setApprovedBy(User approvedBy) {
+        this.approvedBy = approvedBy;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }
