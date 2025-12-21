@@ -1,38 +1,42 @@
 package com.example.demo.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import com.example.demo.entity.AssetDisposal;  // ← THIS IMPORT WAS MISSING
+import com.example.demo.entity.AssetDisposal;      // ← Fixed: import entity
+import java.time.LocalDate;                     // ← Fixed: import LocalDate
+import java.time.LocalDateTime;                 // ← Fixed: import LocalDateTime
 
 @Schema(name = "AssetDisposalResponseDto")
 public class AssetDisposalResponse {
 
     private Long id;
     private Long assetId;
-    private String assetName;  // Optional: if Asset has name field
+    private String assetName;         // optional - if your Asset has a name field
     private String disposalMethod;
     private Double disposalValue;
     private LocalDate disposalDate;
-    private String approvedBy;  // Username or full name
+    private String approvedBy;        // we will use name or username here
     private LocalDateTime createdAt;
 
     public AssetDisposalResponse() {}
 
-    // Constructor from AssetDisposal entity
+    // Constructor mapping from entity
     public AssetDisposalResponse(AssetDisposal entity) {
-        if (entity != null) {
-            this.id = entity.getId();
-            if (entity.getAsset() != null) {
-                this.assetId = entity.getAsset().getId();
-                // this.assetName = entity.getAsset().getName(); // Uncomment if Asset has name
-            }
-            this.disposalMethod = entity.getDisposalMethod();
-            this.disposalValue = entity.getDisposalValue();
-            this.disposalDate = entity.getDisposalDate();
-            if (entity.getApprovedBy() != null) {
-                this.approvedBy = entity.getApprovedBy().getUsername();  // Assuming User has username
-            }
-            this.createdAt = entity.getCreatedAt();
-        }
+        this.id = entity.getId();
+        this.assetId = entity.getAsset() != null ? entity.getAsset().getId() : null;
+        // Uncomment if your Asset entity has a 'name' field
+        // this.assetName = entity.getAsset() != null ? entity.getAsset().getName() : null;
+
+        this.disposalMethod = entity.getDisposalMethod();
+        this.disposalValue = entity.getDisposalValue();
+        this.disposalDate = entity.getDisposalDate();
+
+        // Fixed: Use a method that exists in your User entity
+        // Common options: getName(), getFullName(), getEmail(), getUsername()
+        this.approvedBy = entity.getApprovedBy() != null 
+                ? entity.getApprovedBy().getName()  // ← Change to your actual method
+                : null;
+
+        this.createdAt = entity.getCreatedAt();
     }
 
     // Getters and Setters
