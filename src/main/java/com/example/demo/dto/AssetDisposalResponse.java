@@ -1,78 +1,57 @@
 package com.example.demo.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import com.example.demo.entity.AssetDisposal;
 
-@Schema(name = "AssetDisposalResponseDto")  // Unique name to prevent Swagger schema reuse
 public class AssetDisposalResponse {
 
     private Long id;
-    private String reason;
-    private String status;
     private Long assetId;
-    private Long requestedBy;
+    private String disposalMethod;
+    private Double disposalValue;
+    private LocalDate disposalDate;
     private Long approvedBy;
+    private LocalDateTime createdAt;
 
-    // Default constructor
-    public AssetDisposalResponse() {
-    }
-
-    // Constructor that takes an AssetDisposal entity
     public AssetDisposalResponse(AssetDisposal entity) {
         this.id = entity.getId();
-        this.reason = entity.getReason();
-        this.status = entity.getStatus();
-        this.assetId = entity.getAssetId();
-        this.requestedBy = entity.getRequestedBy();
-        this.approvedBy = entity.getApprovedBy();
+        this.assetId = entity.getAsset().getId();   // ✅ FIX
+        this.disposalMethod = entity.getDisposalMethod();
+        this.disposalValue = entity.getDisposalValue();
+        this.disposalDate = entity.getDisposalDate();
+        this.approvedBy = entity.getApprovedBy() != null
+                ? entity.getApprovedBy().getId()
+                : null;                              // ✅ FIX
+        this.createdAt = entity.getCreatedAt();
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public Long getAssetId() {
         return assetId;
     }
 
-    public void setAssetId(Long assetId) {
-        this.assetId = assetId;
+    public String getDisposalMethod() {
+        return disposalMethod;
     }
 
-    public Long getRequestedBy() {
-        return requestedBy;
+    public Double getDisposalValue() {
+        return disposalValue;
     }
 
-    public void setRequestedBy(Long requestedBy) {
-        this.requestedBy = requestedBy;
+    public LocalDate getDisposalDate() {
+        return disposalDate;
     }
 
     public Long getApprovedBy() {
         return approvedBy;
     }
 
-    public void setApprovedBy(Long approvedBy) {
-        this.approvedBy = approvedBy;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
