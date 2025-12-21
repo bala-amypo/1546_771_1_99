@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 public class AssetDisposal {
 
@@ -15,6 +15,7 @@ public class AssetDisposal {
     // One disposal for one asset
     @OneToOne
     @JoinColumn(name = "asset_id")
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     private Asset asset;
 
     private String disposalMethod;
@@ -26,6 +27,7 @@ public class AssetDisposal {
     // Many disposals can be approved by one user (Admin)
     @ManyToOne
     @JoinColumn(name = "approved_by")
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     private User approvedBy;
 
     private LocalDateTime createdAt;
