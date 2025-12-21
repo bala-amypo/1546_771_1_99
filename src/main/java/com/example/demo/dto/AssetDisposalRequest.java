@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
-@Schema(name = "AssetDisposalCreateRequest")  // ← Unique name - fixes Swagger example
-@JsonIgnoreProperties(ignoreUnknown = true)   // ← Safety: ignore extra fields
+@Schema(name = "AssetDisposalCreateRequest")  // Unique name - fixes wrong example in Swagger
+@JsonIgnoreProperties(ignoreUnknown = true)   // Extra local safety
 public class AssetDisposalRequest {
 
     private String reason;
@@ -15,13 +15,11 @@ public class AssetDisposalRequest {
 
     private Long requestedBy;
 
-    // Getters and Setters
+    // Getters and Setters (unchanged)
     public String getReason() { return reason; }
     public void setReason(String reason) { this.reason = reason; }
-
     public Long getAssetId() { return assetId; }
     public void setAssetId(Long assetId) { this.assetId = assetId; }
-
     public Long getRequestedBy() { return requestedBy; }
     public void setRequestedBy(Long requestedBy) { this.requestedBy = requestedBy; }
 }
