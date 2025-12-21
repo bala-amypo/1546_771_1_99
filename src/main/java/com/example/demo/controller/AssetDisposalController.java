@@ -31,14 +31,14 @@ public class AssetDisposalController {
         );
     }
 
+    // ✅ Approve disposal (NO CHANGE NEEDED)
     @PutMapping("/approve/{disposalId}/{adminId}")
-public ResponseEntity<String> approveDisposal(
-        @PathVariable Long disposalId,
-        @PathVariable Long adminId) {
+    public ResponseEntity<AssetDisposal> approveDisposal(
+            @PathVariable Long disposalId,
+            @PathVariable Long adminId) {
 
-    disposalService.approveDisposal(disposalId, adminId);
-
-    return ResponseEntity.ok("Asset disposal approved successfully");
-}
-
+        return ResponseEntity.ok(
+                disposalService.approveDisposal(disposalId, adminId)
+        );
+    }
 }
