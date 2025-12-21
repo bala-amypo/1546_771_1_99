@@ -1,25 +1,34 @@
 package com.example.demo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
 
-@Schema(name = "AssetDisposalCreateRequest")  // Unique name - fixes wrong example in Swagger
-@JsonIgnoreProperties(ignoreUnknown = true)   // Extra local safety
 public class AssetDisposalRequest {
 
-    private String reason;
+    private String disposalMethod;
+    private Double disposalValue;
+    private LocalDate disposalDate;
 
-    @NotNull(message = "assetId is required")
-    private Long assetId;
+    public String getDisposalMethod() {
+        return disposalMethod;
+    }
 
-    private Long requestedBy;
+    public void setDisposalMethod(String disposalMethod) {
+        this.disposalMethod = disposalMethod;
+    }
 
-    // Getters and Setters (unchanged)
-    public String getReason() { return reason; }
-    public void setReason(String reason) { this.reason = reason; }
-    public Long getAssetId() { return assetId; }
-    public void setAssetId(Long assetId) { this.assetId = assetId; }
-    public Long getRequestedBy() { return requestedBy; }
-    public void setRequestedBy(Long requestedBy) { this.requestedBy = requestedBy; }
+    public Double getDisposalValue() {
+        return disposalValue;
+    }
+
+    public void setDisposalValue(Double disposalValue) {
+        this.disposalValue = disposalValue;
+    }
+
+    public LocalDate getDisposalDate() {
+        return disposalDate;
+    }
+
+    public void setDisposalDate(LocalDate disposalDate) {
+        this.disposalDate = disposalDate;
+    }
 }
