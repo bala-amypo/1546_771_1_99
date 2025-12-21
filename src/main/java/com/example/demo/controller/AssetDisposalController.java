@@ -17,8 +17,7 @@ public class AssetDisposalController {
         this.service = service;
     }
 
-    // ===================== POST =====================
-    // Request asset disposal
+    // ================= POST =================
     @PostMapping
     public ResponseEntity<AssetDisposal> requestDisposal(
             @RequestBody AssetDisposal disposal) {
@@ -26,12 +25,11 @@ public class AssetDisposalController {
         AssetDisposal saved = service.requestDisposal(disposal);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)   // 201
+                .status(HttpStatus.CREATED) // 201
                 .body(saved);
     }
 
-    // ===================== PUT =====================
-    // Approve asset disposal
+    // ================= PUT =================
     @PutMapping("/approve/{disposalId}/{adminId}")
     public ResponseEntity<AssetDisposal> approveDisposal(
             @PathVariable Long disposalId,
@@ -40,6 +38,6 @@ public class AssetDisposalController {
         AssetDisposal approved =
                 service.approveDisposal(disposalId, adminId);
 
-        return ResponseEntity.ok(approved);   // 200
+        return ResponseEntity.ok(approved);
     }
 }
