@@ -7,10 +7,12 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 
 @Configuration
 public class JacksonConfig {
+
     @Bean
     public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.getObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        converter.getObjectMapper()
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return converter;
     }
 }
