@@ -1,4 +1,4 @@
-package com.example.demo.service.impl;
+package com.example.demo.service.Impl;
 
 import com.example.demo.entity.Asset;
 import com.example.demo.entity.AssetDisposal;
@@ -31,10 +31,6 @@ public class AssetDisposalServiceImpl implements AssetDisposalService {
         Asset asset = assetRepository.findById(assetId)
                 .orElseThrow(() -> new RuntimeException("Asset not found"));
 
-        if (!"ACTIVE".equals(asset.getStatus())) {
-            throw new RuntimeException("Only ACTIVE assets can be requested for disposal");
-        }
-
         disposal.setAsset(asset);
         return disposalRepository.save(disposal);
     }
@@ -43,21 +39,18 @@ public class AssetDisposalServiceImpl implements AssetDisposalService {
     @Transactional
     public AssetDisposal approveDisposal(Long disposalId, Long adminId) {
         AssetDisposal disposal = disposalRepository.findById(disposalId)
-                .orElseThrow(() -> new RuntimeException("Disposal request not found"));
+                .orElseThrow(() -> new RuntimeException("Disposal not found"));
 
         User admin = userRepository.findById(adminId)
-                .orElseThrow(() -> new RuntimeException("Admin user not found"));
+                .orElseThrow(() -> new RuntimeException("Admin not found"));
 
-        Asset asset = disposal.getAsset();
-
-        // Update disposal
         disposal.setApprovedBy(admin);
         disposal.setDisposalDate(java.time.LocalDate.now());
 
-        // Change asset status to DISPOSED
+        Asset asset = disposal.getAsset();
         asset.setStatus("DISPOSED");
-
         assetRepository.save(asset);
+
         return disposalRepository.save(disposal);
     }
 }
