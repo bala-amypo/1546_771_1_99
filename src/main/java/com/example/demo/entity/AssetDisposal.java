@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -17,9 +16,8 @@ public class AssetDisposal {
     @JoinColumn(name = "asset_id", nullable = false, unique = true)
     private Asset asset;
 
-    private String disposalMethod; // e.g., sale, scrap, donation
+    private String disposalMethod;
 
-    @DecimalMin(value = "0.0", message = "disposalValue must be greater than or equal to 0")
     private Double disposalValue;
 
     private LocalDate disposalDate;
