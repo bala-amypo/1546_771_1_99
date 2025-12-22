@@ -19,7 +19,7 @@ public class AssetController {
         this.service = service;
     }
 
-    // POST /assets/vendor/{vendorId}/rule/{ruleId}
+    
     @PostMapping("/vendor/{vendorId}/rule/{ruleId}")
     public ResponseEntity<Asset> createAsset(
             @PathVariable Long vendorId,
@@ -28,7 +28,7 @@ public class AssetController {
 
         Asset savedAsset = service.createAsset(vendorId, ruleId, asset);
 
-        // ✅ 201 CREATED
+        
         return new ResponseEntity<>(savedAsset, HttpStatus.CREATED);
     }
 
@@ -42,7 +42,7 @@ public class AssetController {
         return service.getAsset(id);
     }
 
-    // GET /assets/status/{status}
+    
     @GetMapping("/status/{status}")
     public List<Asset> getByStatus(@PathVariable String status) {
         return service.getAssetsByStatus(status);

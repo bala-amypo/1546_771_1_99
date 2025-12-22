@@ -18,14 +18,14 @@ public class DepreciationRuleController {
         this.service = service;
     }
 
-    // ✅ POST /api/depreciation-rules → 201 CREATED
+    
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DepreciationRule createRule(@RequestBody DepreciationRule rule) {
         return service.saveRule(rule);
     }
 
-    // ✅ GET /api/depreciation-rules → 200 OK
+    
     @GetMapping
     public List<DepreciationRule> getAllRules() {
         return service.getAllRules();

@@ -19,7 +19,7 @@ public class AssetLifecycleEventController {
         this.service = service;
     }
 
-    // POST /lifecycle-events/asset/{assetId}
+    
     @PostMapping("/asset/{assetId}")
     public ResponseEntity<AssetLifecycleEvent> logEvent(
             @PathVariable Long assetId,
@@ -27,7 +27,7 @@ public class AssetLifecycleEventController {
 
         AssetLifecycleEvent savedEvent = service.logEvent(assetId, event);
 
-        // ✅ Return 201 CREATED
+        
         return new ResponseEntity<>(savedEvent, HttpStatus.CREATED);
     }
 
