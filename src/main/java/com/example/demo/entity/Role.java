@@ -13,10 +13,10 @@ public class Role {
     @Column(unique = true, nullable = false)
     private String name;
 
-    // Required by JPA
+    
     public Role() {}
 
-    // Getters & Setters
+    
     public Long getId() {
         return id;
     }

@@ -24,10 +24,10 @@ public class Asset {
     @JoinColumn(name = "depreciation_rule_id")
     private DepreciationRule depreciationRule;
 
-    // Required by JPA
+    
     public Asset() {}
 
-    // Getters & Setters
+    
     public Long getId() {
         return id;
     }

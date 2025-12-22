@@ -5,7 +5,7 @@ import com.example.demo.entity.AssetDisposal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Schema(name = "AssetDisposalResponseDto")  // Unique name
+@Schema(name = "AssetDisposalResponseDto")  
 public class AssetDisposalResponse {
 
     private Long id;
@@ -25,7 +25,7 @@ public class AssetDisposalResponse {
         this.disposalValue = entity.getDisposalValue();
         this.disposalDate = entity.getDisposalDate();
         this.approvedBy = entity.getApprovedBy() != null 
-                ? entity.getApprovedBy().getName()  // or .getUsername() if you have it
+                ? entity.getApprovedBy().getName()  
                 : null;
         this.createdAt = entity.getCreatedAt();
     }
