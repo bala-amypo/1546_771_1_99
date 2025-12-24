@@ -14,7 +14,6 @@ public class VendorController {
     @Autowired
     private VendorRepository vendorRepository;
 
-    
     @PostMapping
     public ResponseEntity<Vendor> createVendor(@RequestBody Vendor vendor) {
         Vendor savedVendor = vendorRepository.save(vendor);
