@@ -1,9 +1,9 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.Role;
+import com.example.demo.entity.DepreciationRule;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
-public interface RoleRepository extends JpaRepository {
-    Optional findByName(String name);
+public interface DepreciationRuleRepository extends JpaRepository {
+    Optional findByRuleName(String ruleName);
 }
