@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Asset;
 import com.example.demo.service.AssetService;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,13 +28,13 @@ public class AssetController {
         );
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Asset> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(assetService.findById(id));
+    @GetMapping
+    public ResponseEntity<List<Asset>> getAllAssets() {
+        return ResponseEntity.ok(assetService.getAssets());
     }
 
-    @GetMapping
-    public ResponseEntity<List<Asset>> getAll() {
-        return ResponseEntity.ok(assetService.getAllAssets());
+    @GetMapping("/{id}")
+    public ResponseEntity<Asset> getAssetById(@PathVariable Long id) {
+        return ResponseEntity.ok(assetService.getAsset(id));
     }
 }

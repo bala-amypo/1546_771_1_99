@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.AssetDisposal;
 import com.example.demo.service.AssetDisposalService;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,30 +9,29 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/disposals")
 public class AssetDisposalController {
 
-    private final AssetDisposalService service;
+    private final AssetDisposalService disposalService;
 
-    public AssetDisposalController(AssetDisposalService service) {
-        this.service = service;
+    public AssetDisposalController(AssetDisposalService disposalService) {
+        this.disposalService = disposalService;
     }
 
-    @PostMapping("/{assetId}/{userId}")
+    @PostMapping("/{assetId}")
     public ResponseEntity<AssetDisposal> requestDisposal(
             @PathVariable Long assetId,
-            @PathVariable Long userId,
             @RequestBody AssetDisposal disposal) {
 
         return ResponseEntity.ok(
-                service.requestDisposal(assetId, userId, disposal)
+                disposalService.requestDisposal(assetId, disposal)
         );
     }
 
-    @PutMapping("/{disposalId}/approve/{adminId}")
-    public ResponseEntity<AssetDisposal> approve(
+    @PutMapping("/approve/{disposalId}/{adminId}")
+    public ResponseEntity<AssetDisposal> approveDisposal(
             @PathVariable Long disposalId,
             @PathVariable Long adminId) {
 
         return ResponseEntity.ok(
-                service.approveDisposal(disposalId, adminId)
+                disposalService.approveDisposal(disposalId, adminId)
         );
     }
 }

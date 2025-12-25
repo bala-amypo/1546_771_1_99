@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.AssetLifecycleEvent;
 import com.example.demo.service.AssetLifecycleEventService;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,21 +18,21 @@ public class AssetLifecycleEventController {
     }
 
     @PostMapping("/{assetId}")
-    public ResponseEntity<AssetLifecycleEvent> add(
+    public ResponseEntity<AssetLifecycleEvent> addEvent(
             @PathVariable Long assetId,
             @RequestBody AssetLifecycleEvent event) {
 
         return ResponseEntity.ok(
-                service.logEvent(assetId, event)
+                service.addEvent(assetId, event)
         );
     }
 
     @GetMapping("/{assetId}")
-    public ResponseEntity<List<AssetLifecycleEvent>> getByAsset(
+    public ResponseEntity<List<AssetLifecycleEvent>> getEvents(
             @PathVariable Long assetId) {
 
         return ResponseEntity.ok(
-                service.getByAssetId(assetId)
+                service.getEventsByAsset(assetId)
         );
     }
 }
