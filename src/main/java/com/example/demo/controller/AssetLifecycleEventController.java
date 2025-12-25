@@ -19,17 +19,21 @@ public class AssetLifecycleEventController {
     }
 
     @PostMapping("/{assetId}")
-    public ResponseEntity<AssetLifecycleEvent> addEvent(
+    public ResponseEntity<AssetLifecycleEvent> add(
             @PathVariable Long assetId,
             @RequestBody AssetLifecycleEvent event) {
 
-        return ResponseEntity.ok(service.addEvent(assetId, event));
+        return ResponseEntity.ok(
+                service.logEvent(assetId, event)
+        );
     }
 
     @GetMapping("/{assetId}")
-    public ResponseEntity<List<AssetLifecycleEvent>> getEvents(
+    public ResponseEntity<List<AssetLifecycleEvent>> getByAsset(
             @PathVariable Long assetId) {
 
-        return ResponseEntity.ok(service.getEventsByAsset(assetId));
+        return ResponseEntity.ok(
+                service.getByAssetId(assetId)
+        );
     }
 }
