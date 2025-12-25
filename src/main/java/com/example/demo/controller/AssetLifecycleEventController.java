@@ -3,7 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.entity.Asset;
 import com.example.demo.entity.AssetLifecycleEvent;
 import com.example.demo.repository.AssetLifecycleEventRepository;
-import com.example.demo.repository.AssetRepository;
+import com.example.demo.service.AssetLifecycleEventService;
+import com.example.demo.service.AssetService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,28 +15,34 @@ import java.util.List;
 @RequestMapping("/api/events")
 public class AssetLifecycleEventController {
 
+    private final AssetLifecycleEventService eventService;
+    private final AssetService assetService;
     private final AssetLifecycleEventRepository eventRepository;
-    private final AssetRepository assetRepository;
 
-    public AssetLifecycleEventController(AssetLifecycleEventRepository eventRepository,
-                                         AssetRepository assetRepository) {
+    public AssetLifecycleEventController(AssetLifecycleEventService eventService,
+                                         AssetService assetService,
+                                         AssetLifecycleEventRepository eventRepository) {
+        this.eventService = eventService;
+        this.assetService = assetService;
         this.eventRepository = eventRepository;
-        this.assetRepository = assetRepository;
     }
 
     @PostMapping("/{assetId}")
     public ResponseEntity<?> logEvent(@PathVariable Long assetId,
                                       @Valid @RequestBody AssetLifecycleEvent event) {
-        Asset asset = assetRepository.findById(assetId).orElse(null);
-        if (asset == null) {
+        try {
+            Asset asset = assetService.findById(assetId);
+            AssetLifecycleEvent saved = eventService.logEvent(event, asset);
+            return ResponseEntity.ok(saved);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
-        event.setAsset(asset);
-        return ResponseEntity.ok(eventRepository.save(event));
     }
 
     @GetMapping("/asset/{assetId}")
-    public List<AssetLifecycleEvent> getByAsset(@PathVariable Long assetId) {
+    public List<AssetLifecycleEvent> getEventsForAsset(@PathVariable Long assetId) {
         return eventRepository.findByAssetIdOrderByEventDateDesc(assetId);
     }
 }
