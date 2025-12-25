@@ -10,6 +10,8 @@ import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AssetService {
 
@@ -30,5 +32,24 @@ public class AssetService {
         asset.setVendor(vendor);
         asset.setDepreciationRule(rule);
         return assetRepository.save(asset);
+    }
+
+    public List<Asset> getAllAssets() {
+        return assetRepository.findAll();
+    }
+
+    public Asset getAssetById(Long id) {
+        return assetRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Asset not found"));
+    }
+
+    public List<Asset> getAssetsByStatus(String status) {
+        return assetRepository.findByStatus(status);
+    }
+
+    public List<Asset> getAssetsByVendor(Long vendorId) {
+        Vendor vendor = vendorRepository.findById(vendorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Vendor not found"));
+        return assetRepository.findByVendor(vendor);
     }
 }
