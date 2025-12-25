@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private final UserService userService;
@@ -33,7 +33,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> request) {
-        return ResponseEntity.ok(userService.login(request));
+    public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
+        User dbUser = userService.findByUsername(user.getUsername());
+
+        if (!passwordEncoder.matches(user.getPassword(), dbUser.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
+        }
+
+        String token = jwtUtil.generateToken(dbUser.getUsername());
+        return ResponseEntity.ok(Map.of("token", token));
     }
 }
