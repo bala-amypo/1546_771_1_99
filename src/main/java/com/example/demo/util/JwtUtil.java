@@ -1,4 +1,4 @@
-package com.example.demo.security;
+package com.example.demo.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtUtil {
-    private static final String SECRET_KEY = "your-256-bit-secret";
+    private static final String SECRET_KEY = "your-256-bit-secret-your-256-bit-secret-your-256-bit-secret";
 
     public String generateToken(String email, Long userId, java.util.Collection<? extends GrantedAuthority> authorities) {
         Map<String, Object> claims = new HashMap<>();
@@ -56,9 +56,8 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
+        return Jwts.parser()
                 .setSigningKey(getSignInKey())
-                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }

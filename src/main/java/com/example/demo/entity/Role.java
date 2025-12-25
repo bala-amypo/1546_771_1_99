@@ -15,4 +15,9 @@ public class Role {
 
     @Column(unique = true, nullable = false)
     private String name;
+
+    // Add this constructor
+    public Role(String name) {
+        this.name = name;
+    }
 }
