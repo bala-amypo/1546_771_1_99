@@ -1,11 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Asset;
-import com.example.demo.entity.Vendor;
-import com.example.demo.entity.DepreciationRule;
 import com.example.demo.repository.AssetRepository;
-import com.example.demo.repository.VendorRepository;
-import com.example.demo.repository.DepreciationRuleRepository;
+import com.example.demo.service.AssetService;
+import com.example.demo.service.DepreciationRuleService;
+import com.example.demo.service.VendorService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,30 +15,35 @@ import java.util.List;
 @RequestMapping("/api/assets")
 public class AssetController {
 
+    private final AssetService assetService;
+    private final VendorService vendorService;
+    private final DepreciationRuleService ruleService;
     private final AssetRepository assetRepository;
-    private final VendorRepository vendorRepository;
-    private final DepreciationRuleRepository ruleRepository;
 
-    public AssetController(AssetRepository assetRepository,
-                           VendorRepository vendorRepository,
-                           DepreciationRuleRepository ruleRepository) {
+    public AssetController(AssetService assetService,
+                           VendorService vendorService,
+                           DepreciationRuleService ruleService,
+                           AssetRepository assetRepository) {
+        this.assetService = assetService;
+        this.vendorService = vendorService;
+        this.ruleService = ruleService;
         this.assetRepository = assetRepository;
-        this.vendorRepository = vendorRepository;
-        this.ruleRepository = ruleRepository;
     }
 
     @PostMapping("/{vendorId}/{ruleId}")
     public ResponseEntity<?> create(@PathVariable Long vendorId,
                                     @PathVariable Long ruleId,
                                     @Valid @RequestBody Asset asset) {
-        Vendor vendor = vendorRepository.findById(vendorId).orElse(null);
-        DepreciationRule rule = ruleRepository.findById(ruleId).orElse(null);
-        if (vendor == null || rule == null) {
+        try {
+            var vendor = vendorService.findById(vendorId);
+            var rule = ruleService.findById(ruleId);
+            Asset saved = assetService.create(asset, vendor, rule);
+            return ResponseEntity.ok(saved);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
-        asset.setVendor(vendor);
-        asset.setDepreciationRule(rule);
-        return ResponseEntity.ok(assetRepository.save(asset));
     }
 
     @GetMapping
@@ -55,7 +59,8 @@ public class AssetController {
     }
 
     @GetMapping("/status/{status}")
-    public List<Asset> getByStatus(@PathVariable String status) {
-        return assetRepository.findByStatus(status);
+    public ResponseEntity<List<Asset>> getByStatus(@PathVariable String status) {
+        List<Asset> assets = assetRepository.findByStatus(status);
+        return ResponseEntity.ok(assets); // Returns empty list if none
     }
 }

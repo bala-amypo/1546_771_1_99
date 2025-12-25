@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.DepreciationRule;
-import com.example.demo.repository.DepreciationRuleRepository;
+import com.example.demo.service.DepreciationRuleService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,17 +10,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/rules")
 public class DepreciationRuleController {
 
-    private final DepreciationRuleRepository repository;
+    private final DepreciationRuleService ruleService;
 
-    public DepreciationRuleController(DepreciationRuleRepository repository) {
-        this.repository = repository;
+    public DepreciationRuleController(DepreciationRuleService ruleService) {
+        this.ruleService = ruleService;
     }
 
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody DepreciationRule rule) {
-        if (!Set.of("STRAIGHT_LINE", "DECLINING_BALANCE").contains(rule.getMethod())) {
-            return ResponseEntity.badRequest().body("Invalid method");
+        try {
+            return ResponseEntity.ok(ruleService.create(rule));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok(repository.save(rule));
     }
 }
