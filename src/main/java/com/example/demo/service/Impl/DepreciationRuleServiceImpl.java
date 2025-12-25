@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.DepreciationRule;
+import com.example.demo.exception.BusinessValidationException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.DepreciationRuleRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +19,14 @@ public class DepreciationRuleServiceImpl implements DepreciationRuleService {
 
     @Override
     public DepreciationRule create(DepreciationRule rule) {
-        // Validation for test91 (invalid method) and test124 (negative salvage)
         if (rule.getMethod() == null || !Set.of("STRAIGHT_LINE", "DECLINING_BALANCE").contains(rule.getMethod())) {
-            throw new IllegalArgumentException("Invalid depreciation method");
+            throw new BusinessValidationException("Invalid depreciation method. Allowed: STRAIGHT_LINE, DECLINING_BALANCE");
         }
         if (rule.getUsefulLifeYears() <= 0) {
-            throw new IllegalArgumentException("Useful life must be greater than 0");
+            throw new BusinessValidationException("Useful life years must be greater than 0");
         }
         if (rule.getSalvageValue() < 0) {
-            throw new IllegalArgumentException("Salvage value cannot be negative");
+            throw new BusinessValidationException("Salvage value cannot be negative");
         }
         return repository.save(rule);
     }
@@ -33,6 +34,6 @@ public class DepreciationRuleServiceImpl implements DepreciationRuleService {
     @Override
     public DepreciationRule findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Depreciation rule not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Depreciation rule not found with id: " + id));
     }
 }

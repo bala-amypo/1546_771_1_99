@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Vendor;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.VendorRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,6 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public Vendor findById(Long id) {
         return vendorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Vendor not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Vendor not found with id: " + id));
     }
 }
