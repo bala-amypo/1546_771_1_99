@@ -20,10 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @Autowired
     private JwtUtil jwtUtil;
+
     @Autowired
     private AuthService authService;
 
@@ -33,12 +36,22 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
         );
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String token = jwtUtil.generateToken(userDetails.getUsername(), ((User) authentication.getPrincipal()).getId(), userDetails.getAuthorities());
+        User user = (User) authentication.getPrincipal();
+        String token = jwtUtil.generateToken(
+                userDetails.getUsername(),
+                user.getId(),
+                userDetails.getAuthorities()
+        );
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody RegisterRequest registerRequest) {
-        return ResponseEntity.ok(authService.registerUser(registerRequest.getEmail(), registerRequest.getPassword(), registerRequest.getName()));
+        User registeredUser = authService.registerUser(
+                registerRequest.getEmail(),
+                registerRequest.getPassword(),
+                registerRequest.getName()
+        );
+        return ResponseEntity.ok(registeredUser);
     }
 }
