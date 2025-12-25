@@ -1,5 +1,3 @@
-
-
 package com.example.demo.util;
 
 import io.jsonwebtoken.Claims;
@@ -32,6 +30,7 @@ public class JwtUtil {
     }
 
     public Claims getClaims(String token) {
+        // For jjwt < 0.11, use parseClaimsJws directly from Jwts
         return Jwts.parser()
                 .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(token)

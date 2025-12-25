@@ -2,29 +2,25 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.AssetDisposal;
 import com.example.demo.service.AssetDisposalService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/asset-disposals")
+@RequestMapping("/asset-disposals")
 public class AssetDisposalController {
 
-    @Autowired
-    private AssetDisposalService service;
+    private final AssetDisposalService service;
 
-    @PostMapping
-    public ResponseEntity<AssetDisposal> requestDisposal(@RequestBody AssetDisposal disposal) {
-        return ResponseEntity.ok(service.requestDisposal(disposal));
+    public AssetDisposalController(AssetDisposalService service) {
+        this.service = service;
     }
 
-    @PutMapping("/approve/{disposalId}/{adminId}")
-    public ResponseEntity<AssetDisposal> approveDisposal(
-            @PathVariable Long disposalId,
-            @PathVariable Long adminId) {
-        return ResponseEntity.ok(service.approveDisposal(disposalId, adminId));
+    @PostMapping("/{assetId}")
+    public ResponseEntity<AssetDisposal> requestDisposal(@PathVariable Long assetId,
+                                                         @RequestBody AssetDisposal disposal) {
+        return ResponseEntity.ok(service.requestDisposal(assetId, disposal));
     }
 
     @GetMapping

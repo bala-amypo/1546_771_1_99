@@ -2,23 +2,24 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.AssetLifecycleEvent;
 import com.example.demo.service.AssetLifecycleEventService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/asset-events")
+@RequestMapping("/asset-events")
 public class AssetLifecycleEventController {
 
-    @Autowired
-    private AssetLifecycleEventService service;
+    private final AssetLifecycleEventService service;
+
+    public AssetLifecycleEventController(AssetLifecycleEventService service) {
+        this.service = service;
+    }
 
     @PostMapping("/{assetId}")
-    public ResponseEntity<AssetLifecycleEvent> addEvent(
-            @PathVariable Long assetId,
-            @RequestBody AssetLifecycleEvent event) {
+    public ResponseEntity<AssetLifecycleEvent> addEvent(@PathVariable Long assetId,
+                                                        @RequestBody AssetLifecycleEvent event) {
         return ResponseEntity.ok(service.addEvent(assetId, event));
     }
 

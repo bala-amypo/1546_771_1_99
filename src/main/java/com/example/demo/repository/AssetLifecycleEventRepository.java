@@ -1,11 +1,10 @@
-package com.example.demo.repository;
+package com.example.demo.service;
 
 import com.example.demo.entity.AssetLifecycleEvent;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface AssetLifecycleEventRepository extends JpaRepository<AssetLifecycleEvent, Long> {
-
-    List<AssetLifecycleEvent> findByAssetIdOrderByEventDateDesc(Long assetId);
+public interface AssetLifecycleEventService {
+    AssetLifecycleEvent addEvent(Long assetId, AssetLifecycleEvent event);
+    List<AssetLifecycleEvent> getEventsByAsset(Long assetId);
 }
