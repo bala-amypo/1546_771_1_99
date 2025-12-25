@@ -35,25 +35,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String header = request.getHeader("Authorization");
 
         if (header != null && header.startsWith("Bearer ")) {
+
             String token = header.substring(7);
 
             if (jwtUtil.validateToken(token)) {
-                Claims claims = jwtUtil.getClaims(token);
 
+                Claims claims = jwtUtil.getClaims(token);
                 String email = claims.get("email", String.class);
+
+                @SuppressWarnings("unchecked")
                 List<String> roles = (List<String>) claims.get("roles");
 
                 var authorities = roles.stream()
                         .map(r -> new SimpleGrantedAuthority("ROLE_" + r))
                         .collect(Collectors.toList());
 
-                UsernamePasswordAuthenticationToken auth =
+                UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(email, null, authorities);
 
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                SecurityContextHolder.getContext()
+                        .setAuthentication(authentication);
             }
         }
 
+        // If token missing or invalid → context remains empty → 401 for protected APIs
         filterChain.doFilter(request, response);
     }
 }
