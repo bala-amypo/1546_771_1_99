@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
                  return new OpenAPI()
                   // You need to change the port as per your server 
                   .servers(List.of( 
-                        new Server().url("https://9345.408procr.amypo.ai") 
+                        new Server().url("https://9070.408procr.amypo.ai") 
                          ));
                          } 
                 }
