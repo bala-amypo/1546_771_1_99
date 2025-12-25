@@ -1,30 +1,25 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.DepreciationRule;
-import com.example.demo.service.DepreciationRuleService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import com.example.demo.repository.DepreciationRuleRepository;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/rules")
 public class DepreciationRuleController {
-    @Autowired
-    private DepreciationRuleService ruleService;
+
+    private final DepreciationRuleRepository repository;
+
+    public DepreciationRuleController(DepreciationRuleRepository repository) {
+        this.repository = repository;
+    }
 
     @PostMapping
-    public ResponseEntity<DepreciationRule> createRule(@RequestBody DepreciationRule rule) {
-        return ResponseEntity.ok(ruleService.createRule(rule));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<DepreciationRule>> getAllRules() {
-        return ResponseEntity.ok(ruleService.getAllRules());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<DepreciationRule> getRuleById(@PathVariable Long id) {
-        return ResponseEntity.ok(ruleService.getRuleById(id));
+    public ResponseEntity<?> create(@RequestBody DepreciationRule rule) {
+        if (!Set.of("STRAIGHT_LINE", "DECLINING_BALANCE").contains(rule.getMethod())) {
+            return ResponseEntity.badRequest().body("Invalid depreciation method");
+        }
+        return ResponseEntity.ok(repository.save(rule));
     }
 }
