@@ -2,27 +2,36 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Vendor;
 import com.example.demo.repository.VendorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/vendors")
+@RequestMapping("/api/vendors")
 public class VendorController {
 
-    @Autowired
-    private VendorRepository vendorRepository;
+    private final VendorRepository repository;
 
-    @PostMapping
-    public ResponseEntity<Vendor> createVendor(@RequestBody Vendor vendor) {
-        Vendor savedVendor = vendorRepository.save(vendor);
-        return new ResponseEntity<>(savedVendor, HttpStatus.CREATED);
+    public VendorController(VendorRepository repository) {
+        this.repository = repository;
     }
 
+    @PostMapping
+    public ResponseEntity<Vendor> create(@Valid @RequestBody Vendor vendor) {
+        return ResponseEntity.ok(repository.save(vendor));
+    }
 
     @GetMapping
-    public ResponseEntity<?> getAllVendors() {
-        return ResponseEntity.ok(vendorRepository.findAll());
+    public List<Vendor> getAll() {
+        return repository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Vendor> getById(@PathVariable Long id) {
+        return repository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }
