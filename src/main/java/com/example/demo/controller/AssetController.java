@@ -29,12 +29,7 @@ public class AssetController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Asset> getById(@PathVariable Long id) {
+    public ResponseEntity<Asset> getAssetById(@PathVariable Long id) {
         return ResponseEntity.ok(assetService.getAssetById(id));
-    }
-
-    @GetMapping("/status/{status}")
-    public ResponseEntity<List<Asset>> getByStatus(@PathVariable String status) {
-        return ResponseEntity.ok(assetService.getAssetsByStatus(status));
     }
 }

@@ -1,3 +1,13 @@
+package com.example.demo.controller;
+
+import com.example.demo.entity.Vendor;
+import com.example.demo.service.VendorService;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/vendors")
 public class VendorController {
@@ -9,17 +19,17 @@ public class VendorController {
     }
 
     @PostMapping
-    public ResponseEntity<Vendor> create(@RequestBody Vendor vendor) {
+    public ResponseEntity<Vendor> createVendor(@RequestBody Vendor vendor) {
         return ResponseEntity.ok(vendorService.createVendor(vendor));
     }
 
     @GetMapping
-    public ResponseEntity<List<Vendor>> getAll() {
+    public ResponseEntity<List<Vendor>> getAllVendors() {
         return ResponseEntity.ok(vendorService.getAllVendors());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Vendor> getById(@PathVariable Long id) {
+    public ResponseEntity<Vendor> getVendorById(@PathVariable Long id) {
         return ResponseEntity.ok(vendorService.getVendorById(id));
     }
 }
