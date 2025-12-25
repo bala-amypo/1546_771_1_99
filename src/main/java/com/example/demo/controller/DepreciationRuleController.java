@@ -4,6 +4,7 @@ import com.example.demo.entity.DepreciationRule;
 import com.example.demo.repository.DepreciationRuleRepository;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/rules")
