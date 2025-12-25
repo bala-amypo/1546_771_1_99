@@ -18,18 +18,24 @@ public class AssetController {
         this.assetService = assetService;
     }
 
-    @PostMapping
-    public ResponseEntity<Asset> createAsset(@RequestBody Asset asset) {
-        return ResponseEntity.ok(assetService.createAsset(asset));
-    }
+    @PostMapping("/{vendorId}/{ruleId}")
+    public ResponseEntity<Asset> createAsset(
+            @PathVariable Long vendorId,
+            @PathVariable Long ruleId,
+            @RequestBody Asset asset) {
 
-    @GetMapping
-    public ResponseEntity<List<Asset>> getAllAssets() {
-        return ResponseEntity.ok(assetService.getAllAssets());
+        return ResponseEntity.ok(
+                assetService.createAsset(vendorId, ruleId, asset)
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Asset> getAssetById(@PathVariable Long id) {
-        return ResponseEntity.ok(assetService.getAssetById(id));
+    public ResponseEntity<Asset> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(assetService.findById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Asset>> getAll() {
+        return ResponseEntity.ok(assetService.getAllAssets());
     }
 }
