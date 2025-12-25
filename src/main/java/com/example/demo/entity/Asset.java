@@ -1,46 +1,36 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter @NoArgsConstructor
 public class Asset {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
+    @NotBlank
     private String assetTag;
 
-    @Column(nullable = false)
+    @NotBlank
     private String assetName;
 
-    @Column(nullable = false)
+    @PastOrPresent
     private LocalDate purchaseDate;
 
-    @Column(nullable = false)
+    @Positive
     private Double purchaseCost;
 
-    @Enumerated(EnumType.STRING)
-    private AssetStatus status = AssetStatus.ACTIVE;
+    private String status = "ACTIVE";
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vendor_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "vendor_id")
     private Vendor vendor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rule_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "rule_id")
     private DepreciationRule depreciationRule;
-
-    @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AssetLifecycleEvent> events;
-
-    @OneToOne(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
-    private AssetDisposal disposal;
 }

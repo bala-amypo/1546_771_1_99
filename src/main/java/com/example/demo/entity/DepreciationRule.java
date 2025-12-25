@@ -1,25 +1,25 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter @NoArgsConstructor
 public class DepreciationRule {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
+    @NotBlank
     private String ruleName;
 
-    @Enumerated(EnumType.STRING)
-    private DepreciationMethod method;
+    @NotBlank
+    private String method;
 
+    @Min(1)
     private Integer usefulLifeYears;
 
-    private Double salvageValue;
+    @DecimalMin("0.0")
+    private Double salvageValue = 0.0;
 }
