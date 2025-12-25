@@ -1,12 +1,7 @@
 package com.example.demo.service.Impl;
 
 import com.example.demo.entity.Asset;
-import com.example.demo.entity.DepreciationRule;
-import com.example.demo.entity.Vendor;
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.AssetRepository;
-import com.example.demo.repository.DepreciationRuleRepository;
-import com.example.demo.repository.VendorRepository;
 import com.example.demo.service.AssetService;
 import org.springframework.stereotype.Service;
 
@@ -17,56 +12,37 @@ import java.util.List;
 public class AssetServiceImpl implements AssetService {
 
     private final AssetRepository assetRepository;
-    private final VendorRepository vendorRepository;
-    private final DepreciationRuleRepository ruleRepository;
 
-    public AssetServiceImpl(
-            AssetRepository assetRepository,
-            VendorRepository vendorRepository,
-            DepreciationRuleRepository ruleRepository) {
+    public AssetServiceImpl(AssetRepository assetRepository) {
         this.assetRepository = assetRepository;
-        this.vendorRepository = vendorRepository;
-        this.ruleRepository = ruleRepository;
     }
 
     @Override
-    public Asset createAsset(Long vendorId, Long ruleId, Asset asset) {
+    public Asset createAsset(Asset asset) {
 
-        Vendor vendor = vendorRepository.findById(vendorId)
-                .orElseThrow(() -> new ResourceNotFoundException("Vendor not found"));
-
-        DepreciationRule rule = ruleRepository.findById(ruleId)
-                .orElseThrow(() -> new ResourceNotFoundException("Depreciation rule not found"));
-
-        if (asset.getPurchaseCost() == null || asset.getPurchaseCost() <= 0) {
-            throw new IllegalArgumentException("Purchase cost must be greater than zero");
+        // Null-safe check for purchaseCost
+        if (asset.getPurchaseCost() == null) {
+            asset.setPurchaseCost(0.0);
         }
 
-        if (assetRepository.existsByAssetTag(asset.getAssetTag())) {
-            throw new IllegalArgumentException("Asset tag must be unique");
+        // Default status if null
+        if (asset.getStatus() == null) {
+            asset.setStatus("NEW");
         }
 
-        asset.setVendor(vendor);
-        asset.setDepreciationRule(rule);
-        asset.setStatus("ACTIVE");
+        // Set creation time
         asset.setCreatedAt(LocalDateTime.now());
 
         return assetRepository.save(asset);
     }
 
     @Override
-    public List<Asset> getAssetsByStatus(String status) {
-        return assetRepository.findByStatus(status);
-    }
-
-    @Override
-    public List<Asset> getAllAssets() {
+    public List<Asset> getAssets() {
         return assetRepository.findAll();
     }
 
     @Override
-    public Asset getAsset(Long id) {
-        return assetRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Asset not found"));
+    public Asset getAssetById(Long id) {
+        return assetRepository.findById(id).orElse(null);
     }
 }
