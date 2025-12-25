@@ -12,10 +12,13 @@ import java.util.Set;
 
 @Service
 public class AuthService {
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private RoleRepository roleRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
