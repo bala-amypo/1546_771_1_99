@@ -4,3 +4,8 @@ import com.example.demo.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
+
+
+public interface AssetDisposalRepository extends JpaRepository<AssetDisposal, Long> {
+    List<AssetDisposal> findByApprovedBy(User user);
+}
