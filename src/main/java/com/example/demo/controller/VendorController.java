@@ -2,18 +2,27 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Vendor;
 import com.example.demo.service.VendorService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/vendors")
+@Tag(name = "Vendor Controller", description = "Endpoints for managing asset vendors")
 public class VendorController {
-    @Autowired private VendorService vendorService;
+
+    @Autowired
+    private VendorService vendorService;
 
     @PostMapping
-    public Vendor createVendor(@RequestBody Vendor vendor) { return vendorService.createVendor(vendor); }
+    public Vendor createVendor(@RequestBody Vendor vendor) {
+        return vendorService.createVendor(vendor);
+    }
 
     @GetMapping
-    public List<Vendor> getAll() { return vendorService.getAllVendors(); }
+    public List<Vendor> getAllVendors() {
+        return vendorService.getAllVendors();
+    }
 }
