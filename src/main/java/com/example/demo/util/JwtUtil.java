@@ -14,9 +14,9 @@ import java.util.Set;
 public class JwtUtil {
 
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final long expiration = 86400000; // 24 hours
+    private final long expirationTime = 86400000; // 24 hours
 
-    // Method signature required by Technical Constraints Step 0
+    // Method signature required by Technical Constraints Step 0, Point 4
     public String generateToken(String email, Long userId, Set<String> roles) {
         return Jwts.builder()
                 .setSubject(email)
@@ -24,7 +24,7 @@ public class JwtUtil {
                 .claim("email", email)
                 .claim("roles", roles)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(key)
                 .compact();
     }

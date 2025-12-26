@@ -30,45 +30,27 @@ public class JwtFilter extends OncePerRequestFilter {
 
         final String authHeader = request.getHeader("Authorization");
 
-        String username = null;
-        String jwt = null;
-
-        // Check if the header contains a Bearer token
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            jwt = authHeader.substring(7);
-            try {
-                if (jwtUtil.validateToken(jwt)) {
-                    Claims claims = jwtUtil.getClaims(jwt);
-                    username = claims.getSubject();
+            String token = authHeader.substring(7);
+            if (jwtUtil.validateToken(token)) {
+                Claims claims = jwtUtil.getClaims(token);
+                String email = claims.getSubject();
 
-                    // If token is valid and no authentication is set in context
-                    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                        
-                        // Extract roles from JWT claims (Step 0 Requirement)
-                        @SuppressWarnings("unchecked")
-                        List<String> roles = (List<String>) claims.get("roles");
+                @SuppressWarnings("unchecked")
+                List<String> roles = (List<String>) claims.get("roles");
 
-                        // Convert role strings to SimpleGrantedAuthority
-                        List<SimpleGrantedAuthority> authorities = roles.stream()
-                                .map(SimpleGrantedAuthority::new)
-                                .collect(Collectors.toList());
+                if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    List<SimpleGrantedAuthority> authorities = roles.stream()
+                            .map(SimpleGrantedAuthority::new)
+                            .collect(Collectors.toList());
 
-                        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                                username, null, authorities);
-
-                        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        
-                        // Set the authentication in the Security Context
-                        SecurityContextHolder.getContext().setAuthentication(authToken);
-                    }
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            email, null, authorities);
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
-            } catch (Exception e) {
-                // Clear context if token is invalid or expired
-                SecurityContextHolder.clearContext();
             }
         }
-
-        // Continue the filter chain
         filterChain.doFilter(request, response);
     }
 }
