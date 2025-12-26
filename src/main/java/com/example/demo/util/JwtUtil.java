@@ -13,16 +13,14 @@ import java.util.Set;
 @Component
 public class JwtUtil {
 
-    // Must be at least 32 characters long for HS256 algorithm
-    private final String SECRET_KEY = "your-very-secure-and-secret-key-at-least-32-chars";
+    // Must be at least 32 characters long for HS256
+    private final String SECRET_KEY = "your-very-secure-secret-key-at-least-32-characters-long";
     private final SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 
-    /**
-     * Required method signature per Technical Constraints Step 0
-     */
+    // Method signature required by your project constraints
     public String generateToken(String email, Long userId, Set<String> roles) {
         return Jwts.builder()
-                .subject(email)
+                .subject(email) // Modern syntax for 0.12.x+
                 .claim("userId", userId)
                 .claim("email", email)
                 .claim("roles", roles)
@@ -32,13 +30,10 @@ public class JwtUtil {
                 .compact();
     }
 
-    /**
-     * Uses .parser() and .verifyWith() which replaces .parserBuilder() in JJWT 0.12.x+
-     */
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
-                .verifyWith(key)
+                .verifyWith(key) // Modern syntax for 0.12.x+
                 .build()
                 .parseSignedClaims(token);
             return true;
@@ -47,15 +42,11 @@ public class JwtUtil {
         }
     }
 
-    /**
-     * Returns Claims from the token. 
-     * Uses .getPayload() which replaces .getBody() in JJWT 0.12.x+
-     */
     public Claims getClaims(String token) {
         return Jwts.parser()
-                .verifyWith(key)
+                .verifyWith(key) // Modern syntax for 0.12.x+
                 .build()
                 .parseSignedClaims(token)
-                .getPayload();
+                .getPayload(); // In 0.12.x+, getPayload() replaces getBody()
     }
 }
