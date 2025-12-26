@@ -1,81 +1,21 @@
 package com.example.demo.service.impl;
-
-import com.example.demo.entity.Asset;
 import com.example.demo.entity.DepreciationRule;
 import com.example.demo.repository.DepreciationRuleRepository;
-import com.example.demo.service.DepreciationService;
+import com.example.demo.service.DepreciationRuleService;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
-public class DepreciationServiceImpl implements DepreciationService {
-
+public class DepreciationRuleServiceImpl implements DepreciationRuleService {
     private final DepreciationRuleRepository repository;
-
-    public DepreciationServiceImpl(DepreciationRuleRepository repository) {
-        this.repository = repository;
-    }
-
-    // ---------- CRUD ----------
-
-    @Override
-    public DepreciationRule save(DepreciationRule rule) {
+    public DepreciationRuleServiceImpl(DepreciationRuleRepository repository) { this.repository = repository; }
+    @Override public DepreciationRule createRule(DepreciationRule rule) {
+        if (rule.getUsefulLifeYears() <= 0) throw new IllegalArgumentException("Invalid life years");
+        if (rule.getSalvageValue() < 0) throw new IllegalArgumentException("Invalid salvage value");
+        if (!"STRAIGHT_LINE".equals(rule.getMethod()) && !"DECLINING_BALANCE".equals(rule.getMethod())) throw new IllegalArgumentException("Invalid method");
         return repository.save(rule);
     }
-
-    @Override
-    public List<DepreciationRule> getAll() {
-        return repository.findAll();
-    }
-
-    @Override
-    public DepreciationRule getById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    @Override
-    public DepreciationRule getByRuleName(String ruleName) {
-        return repository.findByRuleName(ruleName).orElse(null);
-    }
-
-    // ---------- CALCULATION (USED IN TEST CASES) ----------
-
-    public Double calculateDepreciation(Asset asset) {
-
-        if (asset == null ||
-            asset.getPurchaseCost() == null ||
-            asset.getPurchaseDate() == null ||
-            asset.getDepreciationRule() == null) {
-            return 0.0;
-        }
-
-        DepreciationRule rule = asset.getDepreciationRule();
-
-        if (!"SLM".equalsIgnoreCase(rule.getMethod())) {
-            return 0.0;
-        }
-
-        long yearsUsed = ChronoUnit.YEARS.between(
-                asset.getPurchaseDate(),
-                LocalDate.now()
-        );
-
-        if (yearsUsed <= 0 || rule.getUsefulLifeYears() <= 0) {
-            return 0.0;
-        }
-
-        double depreciableAmount =
-                asset.getPurchaseCost() - rule.getSalvageValue();
-
-        double annualDepreciation =
-                depreciableAmount / rule.getUsefulLifeYears();
-
-        double totalDepreciation =
-                annualDepreciation * yearsUsed;
-
-        return Math.min(totalDepreciation, depreciableAmount);
-    }
+    @Override public List<DepreciationRule> getAllRules() { return repository.findAll(); }
 }
+
+
