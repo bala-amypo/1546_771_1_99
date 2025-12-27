@@ -9,7 +9,7 @@ import java.util.List;
 public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
-        return new OpenAPI().servers(List.of(new Server().url("https://9070.408procr.amypo.ai/")));
+        return new OpenAPI().servers(List.of(new Server().url("https://9293.408procr.amypo.ai/")));
     }
 }
 
