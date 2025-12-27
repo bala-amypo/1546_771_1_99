@@ -31,6 +31,7 @@ public class DataSeeder implements CommandLineRunner {
             v.setContactEmail("static@example.com");
             return vendorRepo.save(v);
         });
+        
 
         DepreciationRule rule = ruleRepo.findByRuleName("StaticRule").orElseGet(() -> {
             DepreciationRule r = new DepreciationRule();
