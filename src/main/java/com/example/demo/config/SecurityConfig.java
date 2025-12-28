@@ -23,15 +23,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(c -> c.disable())
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(a -> a
-        .requestMatchers(
-            "/auth/**",
-            "/swagger-ui/**",
-            "/v3/api-docs/**",
-            "/swagger-ui.html"
-        ).permitAll()
-        .anyRequest().authenticated()
-    )
+        .authorizeHttpRequests(auth -> auth
+    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // ⭐ REQUIRED
+    .requestMatchers(
+        "/auth/**",
+        "/swagger-ui/**",
+        "/v3/api-docs/**",
+        "/swagger-ui.html"
+    ).permitAll()
+    .requestMatchers(HttpMethod.PUT, "/api/disposals/approve/**").hasRole("ADMIN")
+    .anyRequest().authenticated()
+)
+
 
             .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
