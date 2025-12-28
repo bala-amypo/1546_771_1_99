@@ -1,5 +1,3 @@
-
-
 // package com.example.demo.util;
 
 // import io.jsonwebtoken.*;
@@ -9,7 +7,6 @@
 // import java.util.Date;
 // import java.util.Set;
 // import org.springframework.security.core.userdetails.UserDetails;
-
 
 // // @Component
 // // public class JwtUtil {
@@ -30,7 +27,7 @@
 // //     public Claims getClaims(String token) {
 // //         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
 // //     }
-  package com.example.demo.util;
+package com.example.demo.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -67,7 +64,7 @@ public class JwtUtil {
                 .getSubject();
     }
 
-    // Validate token
+   
     public boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return username.equals(userDetails.getUsername());
