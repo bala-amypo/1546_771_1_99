@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 import java.util.Set;
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 // @Component
 // public class JwtUtil {
@@ -41,17 +43,18 @@ public class JwtUtil {
                 .getSubject();
     }
 
-    public Boolean validateToken(String token, User userDetails) {
+    public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return username.equals(userDetails.getUsername());
     }
 
-    public String generateToken(String username) {
-        return io.jsonwebtoken.Jwts.builder()
-                .setSubject(username)
-                .signWith(io.jsonwebtoken.SignatureAlgorithm.HS256, secret)
-                .compact();
-    }
+public String generateToken(String username) {
+    return io.jsonwebtoken.Jwts.builder()
+            .setSubject(username)
+            .signWith(io.jsonwebtoken.SignatureAlgorithm.HS256, secret)
+            .compact();
+}
+
 }
 
 
