@@ -24,10 +24,15 @@ public class SecurityConfig {
         http.csrf(c -> c.disable())
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(a -> a
-                .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/disposals/approve/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-            )
+    .requestMatchers(
+        "/auth/**",
+        "/swagger-ui/**",
+        "/v3/api-docs/**",
+        "/swagger-ui.html"
+    ).permitAll()
+    .anyRequest().authenticated()
+)
+
             .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
