@@ -41,7 +41,7 @@ public class JwtUtil {
                 .getSubject();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public Boolean validateToken(String token, User userDetails) {
         final String username = extractUsername(token);
         return username.equals(userDetails.getUsername());
     }
@@ -54,4 +54,4 @@ public class JwtUtil {
     }
 }
 
-}
+
